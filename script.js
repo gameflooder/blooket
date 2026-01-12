@@ -413,7 +413,7 @@ var blooks = [
   "Dull Blue",
   "Yellow",
   "Blue",
-  encodedBlookCode,
+  "German Painter",
 ];
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -523,7 +523,7 @@ function startBlookEnforcer() {
   if (chosenBlook && chosenBlook !== "random") {
     blookEnforcerInterval = setInterval(() => {
       if (allBots.length > 0 && botinfo.connected) {
-        var blookVal = chosenBlook === "encodedBlook" ? encodedBlookCode : chosenBlook;
+        var blookVal = chosenBlook === "German Painter" ? encodedBlookCode : chosenBlook;
         setUserVal("b", blookVal);
       }
     }, 500);
@@ -621,7 +621,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserVal("cr/t", "t");
+        setUserValSingle("cr/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -635,9 +635,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("tat/t", "t");
+          setUserValSingle("tat/t", "t");
         } else {
-          setUserVal("tat", "t");
+          setUserValSingle("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -652,7 +652,7 @@ var cheats = {
           a.green = true;
         }
         if (a.green) {
-          setUserVal(
+          setUserValSingle(
             "cr",
             (function () {
               var t =
@@ -669,7 +669,7 @@ var cheats = {
             })()
           );
         } else {
-          setUserVal("cr", 0);
+          setUserValSingle("cr", 0);
         }
         a.innerText = a.green
           ? "Ungreen Host Screen"
@@ -686,9 +686,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("p/toString", "t");
+          setUserValSingle("p/toString", "t");
         } else {
-          setUserVal("p", "DogLover3");
+          setUserValSingle("p", "DogLover3");
         }
         a.innerText = a.frozen ? "Remove Crash Password" : "Set Crash Password";
       },
@@ -703,9 +703,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("p", genCursed());
+          setUserValSingle("p", genCursed());
         } else {
-          setUserVal("p", "DogLover3");
+          setUserValSingle("p", "DogLover3");
         }
         a.innerText = a.frozen
           ? "Remove Freeze Password"
@@ -753,7 +753,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${d}:${prompt("How much crypto do you want to steal?")}`
         );
@@ -763,7 +763,7 @@ var cheats = {
       type: "input",
       name: "Cover Host's Screen",
       action: function (adtext) {
-        setUserVal(
+        setUserValSingle(
           "cr",
           (function () {
             var r = new Array(100).fill("1").join("");
@@ -849,7 +849,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${botinfo.name}:${Date.now()}${new Array(1700)
             .fill(stext + " ")
@@ -863,7 +863,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserVal("g/t", "t");
+        setUserValSingle("g/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -877,9 +877,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("tat/t", "t");
+          setUserValSingle("tat/t", "t");
         } else {
-          setUserVal("tat", "t");
+          setUserValSingle("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -896,7 +896,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${d}:${prompt("How much gold do you want to steal?")}`
         );
@@ -914,7 +914,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${d}:swap:${prompt("What do you want to set it to?")}`
         );
@@ -1010,7 +1010,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserVal("g/t", "t");
+        setUserValSingle("g/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1024,9 +1024,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("tat/t", "t");
+          setUserValSingle("tat/t", "t");
         } else {
-          setUserVal("tat", "t");
+          setUserValSingle("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1043,7 +1043,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${d}:${prompt("How much candy do you want to steal?")}`
         );
@@ -1061,7 +1061,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${d}:swap:${prompt("What do you want to set it to?")}`
         );
@@ -1157,7 +1157,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserVal("d/t", "t");
+        setUserValSingle("d/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1171,9 +1171,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("r/toString", "t");
+          setUserValSingle("r/toString", "t");
         } else {
-          setUserVal("r", 1);
+          setUserValSingle("r", 1);
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1196,7 +1196,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserVal(
+        setUserValSingle(
           "r",
           `${Date.now()}${new Array(1700).fill(stext + " ").join("")}`
         );
@@ -1214,9 +1214,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("d/toString", "t");
+          setUserValSingle("d/toString", "t");
         } else {
-          setUserVal("d", 0);
+          setUserValSingle("d", 0);
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1240,9 +1240,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("f/t", "t");
+          setUserValSingle("f/t", "t");
         } else {
-          setUserVal("f", "Old Boot");
+          setUserValSingle("f", "Old Boot");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1251,8 +1251,8 @@ var cheats = {
       type: "button",
       name: "Activate Frenzy",
       action: function (d) {
-        setUserVal("s", true);
-        setUserVal("f", "Frenzy");
+        setUserValSingle("s", true);
+        setUserValSingle("f", "Frenzy");
       },
     },
     {
@@ -1273,8 +1273,8 @@ var cheats = {
       type: "input",
       name: "Send Distraction",
       action: function (d) {
-        setUserVal("s", true);
-        setUserVal("f", d);
+        setUserValSingle("s", true);
+        setUserValSingle("f", d);
       },
     },
   ],
@@ -1283,7 +1283,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserVal("d/t", "t");
+        setUserValSingle("d/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1297,9 +1297,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("tat/t", "t");
+          setUserValSingle("tat/t", "t");
         } else {
-          setUserVal("tat", "t");
+          setUserValSingle("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1316,7 +1316,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${d}:${prompt("How many doubloons do you want to steal?")}`
         );
@@ -1398,7 +1398,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${botinfo.name}:${Date.now()}${new Array(1700)
             .fill(stext + " ")
@@ -1412,7 +1412,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserVal("f/t", "t");
+        setUserValSingle("f/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1426,9 +1426,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("tat/t", "t");
+          setUserValSingle("tat/t", "t");
         } else {
-          setUserVal("tat", "t");
+          setUserValSingle("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1460,7 +1460,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal("tat", `${d}:true`);
+        setUserValSingle("tat", `${d}:true`);
       },
     },
   ],
@@ -1475,9 +1475,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("tat/t", "t");
+          setUserValSingle("tat/t", "t");
         } else {
-          setUserVal("tat", "t");
+          setUserValSingle("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1508,7 +1508,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${d}:${prompt("What attack do you want(inspect, pay, etc)?")}`
         );
@@ -1529,7 +1529,7 @@ var cheats = {
         var spamTimes = parseInt(prompt("How many times to spam?")) || 1;
         var attToSpam = prompt("What attack do you want (inspect, pay, etc)?");
         for (let i = 0; i < spamTimes; i++) {
-          setUserVal("tat", `${d}:${attToSpam}`);
+          setUserValSingle("tat", `${d}:${attToSpam}`);
           await new Promise(r => setTimeout(r, 500));
         }
       }
@@ -1538,7 +1538,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserVal(
+        setUserValSingle(
           "up",
           `a:${Date.now()}${new Array(1700).fill(stext + " ").join("")}`
         );
@@ -1550,7 +1550,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserVal("xp/t", "t");
+        setUserValSingle("xp/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1564,9 +1564,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("up/t", "t");
+          setUserValSingle("up/t", "t");
         } else {
-          setUserVal("up", "Dark Energy:2");
+          setUserValSingle("up", "Dark Energy:2");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1589,7 +1589,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserVal(
+        setUserValSingle(
           "up",
           `__proto__:${Date.now()}${new Array(1700).fill(stext + " ").join("")}`
         );
@@ -1607,9 +1607,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("pr/toString", "t");
+          setUserValSingle("pr/toString", "t");
         } else {
-          setUserVal("pr", 0);
+          setUserValSingle("pr", 0);
         }
         a.innerText = a.frozen
           ? "Unfreeze Scoreboard and Attacks"
@@ -1635,7 +1635,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${d}:${prompt("Which attack do you want to perform (rocket, etc)?")}`
         );
@@ -1656,7 +1656,7 @@ var cheats = {
         var spamTimes = parseInt(prompt("How many times to spam?")) || 1;
         var attToSpam = prompt("Which attack do you want to perform (rocket, etc)?");
         for (let i = 0; i < spamTimes; i++) {
-          setUserVal("tat", `${d}:${attToSpam}`);
+          setUserValSingle("tat", `${d}:${attToSpam}`);
           await new Promise(r => setTimeout(r, 500));
         }
       },
@@ -1673,9 +1673,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("a/toString", "t");
+          setUserValSingle("a/toString", "t");
         } else {
-          setUserVal("a", 1);
+          setUserValSingle("a", 1);
         }
         a.innerText = a.frozen ? "Unfreeze Question" : "Freeze Question";
       },
@@ -1705,7 +1705,7 @@ var cheats = {
       type: "button",
       name: "Freeze Host's Computer",
       action: function (a) {
-        setUserVal("bs", 1e307);
+        setUserValSingle("bs", 1e307);
         a.innerHTML = "He aint coming back from this one!";
       },
     },
@@ -1719,9 +1719,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("d/toString", "t");
+          setUserValSingle("d/toString", "t");
         } else {
-          setUserVal("d", "t");
+          setUserValSingle("d", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1744,7 +1744,7 @@ var cheats = {
       type: "input",
       name: "Cover Host's Screen",
       action: function (adtext) {
-        setUserVal(
+        setUserValSingle(
           "d",
           (function () {
             var r = "";
@@ -1800,9 +1800,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("ca/toString", "t");
+          setUserValSingle("ca/toString", "t");
         } else {
-          setUserVal("ca", 0);
+          setUserValSingle("ca", 0);
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1812,7 +1812,7 @@ var cheats = {
       name: "Send Distraction",
       values: ["dp"],
       action: function (val) {
-        setUserVal("tat", val);
+        setUserValSingle("tat", val);
       },
     },
     {
@@ -1828,7 +1828,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserVal("t/t", "t");
+        setUserValSingle("t/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1842,9 +1842,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("tat/t", "t");
+          setUserValSingle("tat/t", "t");
         } else {
-          setUserVal("tat", "t");
+          setUserValSingle("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1861,7 +1861,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${d}:${prompt("How many toys do you want to steal?")}`
         );
@@ -1879,7 +1879,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${d}:swap:${prompt("What do you want to set it to?")}`
         );
@@ -1975,7 +1975,7 @@ var cheats = {
         value: e,
       })),
       action: function (val) {
-        setUserVal("tat", val);
+        setUserValSingle("tat", val);
       },
     },
   ],
@@ -1990,9 +1990,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserVal("tat/t", "t");
+          setUserValSingle("tat/t", "t");
         } else {
-          setUserVal("tat", "t");
+          setUserValSingle("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -2001,7 +2001,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserVal(
+        setUserValSingle(
           "tat",
           `${botinfo.name}:${Date.now()}${new Array(1700)
             .fill(stext + " ")
@@ -2018,7 +2018,8 @@ var global = [
     values: blooks,
     action: function (val) {
       chosenBlook = val;
-      setUserVal("b", val);
+      var blookValue = val === "German Painter" ? encodedBlookCode : val;
+      setUserVal("b", blookValue);
       if (val === "random") {
         stopBlookEnforcer();
       } else {
@@ -2246,7 +2247,7 @@ async function applyBlookToAllBots(blookName) {
   if (allBots.length === 0) return;
   
   var blookValue = blookName;
-  if (blookName === "encodedBlook") {
+  if (blookName === "German Painter") {
     blookValue = encodedBlookCode;
   }
   
@@ -2326,7 +2327,7 @@ async function connectBot(gid, name, icog, botIndex, selectedBlook = "random", r
         var blookToUse;
         if (selectedBlook === "random") {
           blookToUse = fblooks[Math.floor(Math.random() * fblooks.length)];
-        } else if (selectedBlook === "encodedBlook") {
+        } else if (selectedBlook === "German Painter") {
           blookToUse = encodedBlookCode;
         } else {
           blookToUse = selectedBlook;
@@ -2388,8 +2389,8 @@ async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "ra
   if (isNaN(count) || count < 1) {
     count = 1;
   }
-  if (count > 100) {
-    count = 100;
+  if (count > 60) {
+    count = 60;
   }
   
   canJoin = false;
@@ -2532,17 +2533,34 @@ var originalSetUserVal = async function(path, val) {
   }
 };
 
+async function setUserValSingle(path, val) {
+  if (allBots.length > 0) {
+    var bot = allBots.find(b => b && b.connected && b.fbdb);
+    if (bot) {
+      try {
+        await set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/${path}`), val);
+      } catch (e) {
+        console.error(`[${bot.name}] Failed to set value:`, e.message);
+      }
+    }
+  } else {
+    await originalSetUserVal(path, val);
+  }
+}
+
 async function setUserVal(path, val) {
   if (allBots.length > 0) {
-    var promises = allBots.map(bot => {
-      if (bot && bot.connected && bot.fbdb) {
+    var connectedBots = allBots.filter(b => b && b.connected && b.fbdb);
+    var BATCH_SIZE = 10;
+    for (var i = 0; i < connectedBots.length; i += BATCH_SIZE) {
+      var batch = connectedBots.slice(i, i + BATCH_SIZE);
+      var promises = batch.map(bot => {
         return set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/${path}`), val).catch(e => {
           console.error(`[${bot.name}] Failed to set value:`, e.message);
         });
-      }
-      return Promise.resolve();
-    });
-    await Promise.all(promises);
+      });
+      await Promise.all(promises);
+    }
   } else {
     await originalSetUserVal(path, val);
   }
