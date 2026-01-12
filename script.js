@@ -143,7 +143,7 @@ const SecureWebSocket = {
   }
 };
 
-const hitler = "1#0#1#0#1$3#0#0#1#6#0#0$0";
+const encodedBlookCode = "1#0#1#0#1$3#0#0#1#6#0#0$0";
 var blooks = [
   "Chick",
   "Chicken",
@@ -413,7 +413,7 @@ var blooks = [
   "Dull Blue",
   "Yellow",
   "Blue",
-  hitler,
+  encodedBlookCode,
 ];
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -469,7 +469,53 @@ var lastGameStage = null;
 var blookEnforcerInterval = null;
 var playerSelectElements = [];
 var playerListUpdateInterval = null;
-var lastPlayerListHash = ""; 
+var lastPlayerListHash = "";
+var hostKickedNames = new Set();
+var lastFailedAttempts = new Map();
+
+function getSpecificFailureReason(serverResponse) {
+  if (!serverResponse) return "Server returned empty response";
+  
+  var msg = typeof serverResponse === 'string' 
+    ? serverResponse.toLowerCase() 
+    : (serverResponse.msg || serverResponse.message || JSON.stringify(serverResponse)).toLowerCase();
+  
+  if (msg.includes('game not found') || msg.includes('no game') || msg.includes('invalid') && msg.includes('id')) {
+    return "Game PIN does not exist or game has ended";
+  }
+  if (msg.includes('already taken') || msg.includes('name is taken') || msg.includes('duplicate name') || msg.includes('name already')) {
+    return "Name is already taken by another player";
+  }
+  if (msg.includes('locked') || msg.includes('not accepting')) {
+    return "Game is locked - host disabled new players";
+  }
+  if (msg.includes('already started') || msg.includes('in progress') || msg.includes('game started')) {
+    return "Game has already started";
+  }
+  if (msg.includes('banned') || msg.includes('kicked') || msg.includes('removed') || msg.includes('blocked')) {
+    return "Name was kicked/banned by the host";
+  }
+  if (msg.includes('rate') || msg.includes('too many') || msg.includes('slow down') || msg.includes('limit')) {
+    return "Rate limited - too many attempts, wait a moment";
+  }
+  if (msg.includes('blook') || msg.includes('character')) {
+    return "Invalid blook selected";
+  }
+  if (msg.includes('timeout') || msg.includes('timed out')) {
+    return "Connection timed out - server too slow";
+  }
+  if (msg.includes('network') || msg.includes('fetch')) {
+    return "Network error - check your internet";
+  }
+  
+  return msg.length > 100 ? msg.substring(0, 100) + "..." : msg;
+}
+
+function clearHostKicks() {
+  hostKickedNames.clear();
+  lastFailedAttempts.clear();
+  console.log("Cleared kick/ban list - all names available");
+} 
 
 
 function startBlookEnforcer() {
@@ -477,7 +523,7 @@ function startBlookEnforcer() {
   if (chosenBlook && chosenBlook !== "random") {
     blookEnforcerInterval = setInterval(() => {
       if (allBots.length > 0 && botinfo.connected) {
-        var blookVal = chosenBlook === "hitler" ? hitler : chosenBlook;
+        var blookVal = chosenBlook === "encodedBlook" ? encodedBlookCode : chosenBlook;
         setUserVal("b", blookVal);
       }
     }, 500);
@@ -2085,18 +2131,23 @@ function onUpdateData(datav) {
 function onBlock(data) {}
 
 async function handleChat(data) {
+  if (!data || !data.c) return;
   var users = data.c;
-  var pusers = gameobject.c;
+  var pusers = gameobject && gameobject.c ? gameobject.c : {};
   for (var i in users) {
-    if (users[i]?.msg?.msg) {
-      if (pusers[i]?.msg?.msg) {
+    if (users[i] && users[i].msg && users[i].msg.msg) {
+      if (pusers[i] && pusers[i].msg && pusers[i].msg.msg) {
         if (users[i].msg.i !== pusers[i].msg.i) {
-          const decryptedMsg = await decryptChatMsg(users[i].msg);
-          onChat(decryptedMsg, i);
+          try {
+            const decryptedMsg = await decryptChatMsg(users[i].msg);
+            onChat(decryptedMsg, i);
+          } catch(e) {}
         }
       } else {
-        const decryptedMsg = await decryptChatMsg(users[i].msg);
-        onChat(decryptedMsg, i);
+        try {
+          const decryptedMsg = await decryptChatMsg(users[i].msg);
+          onChat(decryptedMsg, i);
+        } catch(e) {}
       }
     }
   }
@@ -2151,9 +2202,11 @@ function onData(d) {
     return;
   }
   procData(d);
-  if (gameobject.c[botinfo.name]) {
-    if (gameobject.c[botinfo.name].tat && !d.c[botinfo.name].tat) {
-      alert("Attack complete!");
+  if (gameobject && gameobject.c && gameobject.c[botinfo.name]) {
+    if (d && d.c && d.c[botinfo.name]) {
+      if (gameobject.c[botinfo.name].tat && !d.c[botinfo.name].tat) {
+        alert("Attack complete!");
+      }
     }
   }
   if (d.stg === "fin" && botinfo.connected) {
@@ -2168,11 +2221,18 @@ function procData(data) {}
 
 function leaveGame() {
   if (botinfo.connected) {
-    setUserVal("", {});
+    try {
+      setUserVal("", {});
+    } catch(e) {}
+    const liveAppRef = botinfo.liveApp;
     botinfo.fbdb = false;
-    deleteApp(botinfo.liveApp);
     botinfo.connected = false;
     botinfo.liveApp = false;
+    if (liveAppRef) {
+      try {
+        deleteApp(liveAppRef);
+      } catch(e) {}
+    }
     gameobject = {};
     lastGameStage = null;
     stopPlayerListUpdater();
@@ -2186,13 +2246,15 @@ async function applyBlookToAllBots(blookName) {
   if (allBots.length === 0) return;
   
   var blookValue = blookName;
-  if (blookName === "hitler") {
-    blookValue = hitler;
+  if (blookName === "encodedBlook") {
+    blookValue = encodedBlookCode;
   }
   
   var promises = allBots.map(bot => {
     if (bot && bot.connected && bot.fbdb) {
-      return set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/b`), blookValue);
+      return set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/b`), blookValue).catch(e => {
+        console.error(`[${bot.name}] Failed to set blook:`, e.message);
+      });
     }
     return Promise.resolve();
   });
@@ -2243,7 +2305,7 @@ async function connectBot(gid, name, icog, botIndex, selectedBlook = "random", r
         body = JSON.parse(responseText);
       }
       
-      if (body.success) {
+      if (body.fbShardURL && body.fbToken) {
         const liveApp = initializeApp(
           {
             apiKey: "AIzaSyCA-cTOnX19f6LFnDVVsHXya3k6ByP_MnU",
@@ -2264,8 +2326,8 @@ async function connectBot(gid, name, icog, botIndex, selectedBlook = "random", r
         var blookToUse;
         if (selectedBlook === "random") {
           blookToUse = fblooks[Math.floor(Math.random() * fblooks.length)];
-        } else if (selectedBlook === "hitler") {
-          blookToUse = hitler;
+        } else if (selectedBlook === "encodedBlook") {
+          blookToUse = encodedBlookCode;
         } else {
           blookToUse = selectedBlook;
         }
@@ -2285,7 +2347,10 @@ async function connectBot(gid, name, icog, botIndex, selectedBlook = "random", r
           continue;
         }
         bot.connecting = false;
-        bot.error = body.msg;
+        var specificReason = getSpecificFailureReason(body);
+        bot.error = specificReason;
+        lastFailedAttempts.set(name, specificReason);
+        console.log(`[${name}] Failed: ${specificReason}`);
         return null;
       }
     } catch (e) {
@@ -2293,7 +2358,10 @@ async function connectBot(gid, name, icog, botIndex, selectedBlook = "random", r
         await new Promise(r => setTimeout(r, 100 * (attempt + 1)));
         continue;
       }
-      bot.error = e.message;
+      var specificReason = getSpecificFailureReason(e.message);
+      bot.error = specificReason;
+      lastFailedAttempts.set(name, specificReason);
+      console.log(`[${name}] Error: ${specificReason}`);
       return null;
     }
   }
@@ -2305,10 +2373,31 @@ async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "ra
     errorBar("Stop spamming the button!");
     return;
   }
+  
+  if (!code || code.trim() === "") {
+    errorBar("Please enter a game code");
+    return;
+  }
+  
+  if (!baseName || baseName.trim() === "") {
+    errorBar("Please enter a nickname");
+    return;
+  }
+  
+  count = parseInt(count, 10);
+  if (isNaN(count) || count < 1) {
+    count = 1;
+  }
+  if (count > 100) {
+    count = 100;
+  }
+  
   canJoin = false;
   
   chosenBlook = selectedBlook;
   lastGameStage = null;
+  
+  lastFailedAttempts.clear();
   
   leaveAllBots();
   
@@ -2376,9 +2465,23 @@ async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "ra
   updateStatus(`Connected ${allBots.length}/${count} bots`);
   
   if (allBots.length === 0) {
-    errorBar("Connection failed - maybe try a different name?");
+    var failReasons = Array.from(lastFailedAttempts.values());
+    var uniqueReasons = [...new Set(failReasons)];
+    if (uniqueReasons.length === 1) {
+      errorBar(`Failed: ${uniqueReasons[0]}`);
+    } else if (uniqueReasons.length > 1) {
+      errorBar(`Failed: ${uniqueReasons[0]} (and ${uniqueReasons.length - 1} other issues)`);
+    } else {
+      errorBar("Connection failed - check game PIN and try again");
+    }
   } else if (allBots.length < count) {
-    errorBar(`Only ${allBots.length}/${count} connected - try different names`);
+    var failReasons = Array.from(lastFailedAttempts.values());
+    var uniqueReasons = [...new Set(failReasons)];
+    if (uniqueReasons.length > 0) {
+      errorBar(`${allBots.length}/${count} joined. Failed: ${uniqueReasons[0]}`);
+    } else {
+      errorBar(`Only ${allBots.length}/${count} connected`);
+    }
   }
   
   setTimeout(() => { canJoin = true; }, 1000);
@@ -2389,19 +2492,25 @@ function leaveAllBots() {
   stopPlayerListUpdater();
   playerSelectElements = [];
   lastPlayerListHash = "";
-  for (var i = 0; i < allBots.length; i++) {
-    var bot = allBots[i];
-    if (bot && bot.connected) {
+  var botsToClean = allBots.slice();
+  allBots = [];
+  for (var i = 0; i < botsToClean.length; i++) {
+    var bot = botsToClean[i];
+    if (bot && bot.connected && bot.fbdb) {
       try {
         set(ref(bot.fbdb, `${bot.gid}/c/${bot.name}`), {});
+      } catch(e) {}
+    }
+    if (bot && bot.liveApp) {
+      try {
         deleteApp(bot.liveApp);
       } catch(e) {}
     }
   }
-  allBots = [];
   botinfo = { connected: false };
   gameobject = {};
   lastGameStage = null;
+  lastFailedAttempts.clear();
   updateBotCounter();
   updateStatus("Ready");
 }
@@ -2415,14 +2524,21 @@ var originalSetUserVal = async function(path, val) {
     errorBar("Cannot set value when there is no game!");
     return;
   }
-  await set(ref(botinfo.fbdb, `/${botinfo.gid}/c/${botinfo.name}/${path}`), val);
+  try {
+    await set(ref(botinfo.fbdb, `/${botinfo.gid}/c/${botinfo.name}/${path}`), val);
+  } catch (e) {
+    console.error('Failed to set value:', e.message);
+    errorBar("Failed to set value: " + e.message);
+  }
 };
 
 async function setUserVal(path, val) {
   if (allBots.length > 0) {
     var promises = allBots.map(bot => {
       if (bot && bot.connected && bot.fbdb) {
-        return set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/${path}`), val);
+        return set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/${path}`), val).catch(e => {
+          console.error(`[${bot.name}] Failed to set value:`, e.message);
+        });
       }
       return Promise.resolve();
     });
@@ -2433,11 +2549,18 @@ async function setUserVal(path, val) {
 }
 
 function getTime() {
+  if (!gameobject || !gameobject.s || !gameobject.s.d) {
+    return "0:0";
+  }
   var v = (Date.now() - new Date(gameobject.s.d).getTime()) / 60000;
   return Math.floor(v) + ":" + (Math.floor(v * 60) % 60);
 }
 
 function zalgo(text, h = 15) {
+  if (typeof Lunicode === 'undefined') {
+    console.warn('Lunicode not loaded, returning original text');
+    return text;
+  }
   const a = new Lunicode();
   a.tools.creepify.options.maxHeight = h;
   return a.tools.creepify.encode(text);
@@ -2898,10 +3021,12 @@ async function genToken(gid, name) {
 }
 async function useToken(token) {
   const { gid, name, fbToken, fbShardURL } = token;
+  var icogModeEl = document.getElementById("icogmode");
+  var icogMode = icogModeEl ? icogModeEl.getAttribute("checked") : true;
   await connect(
     gid,
     name,
-    document.getElementById("icogmode").getAttribute("checked"),
+    icogMode,
     {
       success: !0,
       fbShardURL,
@@ -2973,7 +3098,7 @@ async function connect(gid, name, icog, reqbody = !1) {
   }
   
   updateStatus("Connecting to game...");
-  if (body.success) {
+  if (body.fbShardURL && body.fbToken) {
     const liveApp = initializeApp(
       {
         apiKey: "AIzaSyCA-cTOnX19f6LFnDVVsHXya3k6ByP_MnU",
@@ -3016,7 +3141,8 @@ async function connect(gid, name, icog, reqbody = !1) {
   } else {
     updateStatus("Ready");
     botinfo.connecting = false;
-    errorBar("Connect error: " + body.msg);
+    var specificReason = getSpecificFailureReason(body);
+    errorBar("Failed: " + specificReason);
   }
 }
 
@@ -3057,7 +3183,12 @@ async function setVal(path, val) {
     errorBar("Cannot set value when there is no game!");
     return;
   }
-  await set(ref(botinfo.fbdb, path), val);
+  try {
+    await set(ref(botinfo.fbdb, path), val);
+  } catch (e) {
+    console.error('Failed to set value:', e.message);
+    errorBar("Failed to set value: " + e.message);
+  }
 }
 updateStatus("Ready");
 
@@ -3179,10 +3310,29 @@ function discordChatTest() {
     div.scrollTop = div.scrollHeight;
   }
 
-  let ws = new WebSocket("chat");
-  ws.onopen = () => {
-    document.querySelector(".discordchat").innerHTML = "";
-  };
+  let ws = null;
+  let wsReconnectDelay = 1000;
+  const maxReconnectDelay = 30000;
+  
+  function createWebSocket() {
+    try {
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${wsProtocol}//${window.location.host}/chat`;
+      ws = new WebSocket(wsUrl);
+      return ws;
+    } catch (e) {
+      console.error('Failed to create WebSocket:', e);
+      return null;
+    }
+  }
+  
+  ws = createWebSocket();
+  if (ws) {
+    ws.onopen = () => {
+      document.querySelector(".discordchat").innerHTML = "";
+      wsReconnectDelay = 1000;
+    };
+  }
   async function sendData(data) {
     if (isUserBanned()) {
       return;
@@ -3260,15 +3410,28 @@ function discordChatTest() {
     }
   }
   function discordConnect() {
-    if (ws.readyState == 3) {
-      ws = new WebSocket("chat");
+    if (!ws || ws.readyState === WebSocket.CLOSED) {
+      ws = createWebSocket();
+      if (!ws) {
+        setTimeout(discordConnect, wsReconnectDelay);
+        wsReconnectDelay = Math.min(wsReconnectDelay * 2, maxReconnectDelay);
+        return;
+      }
     }
     ws.onmessage = (m) => {
       try {
         handleWs(m.data);
-      } catch (e) {}
+      } catch (e) {
+        console.error('WebSocket message error:', e);
+      }
     };
-    ws.onclose = discordConnect;
+    ws.onclose = () => {
+      setTimeout(discordConnect, wsReconnectDelay);
+      wsReconnectDelay = Math.min(wsReconnectDelay * 2, maxReconnectDelay);
+    };
+    ws.onerror = (e) => {
+      console.error('WebSocket error:', e);
+    };
   }
   discordConnect();
 }
@@ -3327,7 +3490,7 @@ function system_message(message, code) {
 
   system_message_text.className = `system_message_text${code}`;
 
-  system_message_text.innerHTML = message;
+  system_message_text.textContent = message;
 
   system_message_container.appendChild(system_message_text);
 
