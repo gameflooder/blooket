@@ -507,7 +507,7 @@
                 <div class="input-wrapper">
                     <span class="input-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="var(--secondary)"/><circle cx="9" cy="10" r="1" fill="var(--primary)"/><circle cx="15" cy="10" r="1" fill="var(--primary)"/></svg></span>
                     <select id="blookSelect">
-                        <option value="hitler">🎨 German Painter</option>
+                        <option value="encodedBlook">🎨 German Painter</option>
                         <option value="random">🎲 Random</option>
                         <option value="Chick">🐤 Chick</option>
                         <option value="Chicken">🐔 Chicken</option>
@@ -598,14 +598,16 @@
         if (urlcode) document.querySelector("#gcode").value = urlcode;
     </script>
 
-    <script src="https://zalgo.org/lunicode.js"></script>
+    <script src="https://zalgo.org/lunicode.js" onerror="console.warn('Lunicode library failed to load')"></script>
 
     <script>
         function join() {
             var cin = document.getElementById("gcode");
             var name = document.getElementById("gname");
-            var botCount = parseInt(document.getElementById("botcount").value) || 1;
-            botCount = Math.min(Math.max(botCount, 1), 100);
+            var botCountInput = document.getElementById("botcount").value;
+            var botCount = parseInt(botCountInput, 10);
+            if (isNaN(botCount) || botCount < 1) botCount = 1;
+            if (botCount > 100) botCount = 100;
             
             var icog = true;
             var selectedBlook = document.getElementById("blookSelect").value;
@@ -614,7 +616,9 @@
         }
 
         function killAllBots() {
-            leaveAllBots();
+            if (typeof leaveAllBots === 'function') {
+                leaveAllBots();
+            }
         }
 
         function errorBar(error) {
