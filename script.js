@@ -143,7 +143,7 @@ const SecureWebSocket = {
   }
 };
 
-const encodedBlookCode = "1#0#1#0#1$3#0#0#1#6#0#0$0";
+const hitler = "1#0#1#0#1$3#0#0#1#6#0#0$0";
 var blooks = [
   "Chick",
   "Chicken",
@@ -413,7 +413,7 @@ var blooks = [
   "Dull Blue",
   "Yellow",
   "Blue",
-  "German Painter",
+  hitler,
 ];
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -469,53 +469,7 @@ var lastGameStage = null;
 var blookEnforcerInterval = null;
 var playerSelectElements = [];
 var playerListUpdateInterval = null;
-var lastPlayerListHash = "";
-var hostKickedNames = new Set();
-var lastFailedAttempts = new Map();
-
-function getSpecificFailureReason(serverResponse) {
-  if (!serverResponse) return "Server returned empty response";
-  
-  var msg = typeof serverResponse === 'string' 
-    ? serverResponse.toLowerCase() 
-    : (serverResponse.msg || serverResponse.message || JSON.stringify(serverResponse)).toLowerCase();
-  
-  if (msg.includes('game not found') || msg.includes('no game') || msg.includes('invalid') && msg.includes('id')) {
-    return "Game PIN does not exist or game has ended";
-  }
-  if (msg.includes('already taken') || msg.includes('name is taken') || msg.includes('duplicate name') || msg.includes('name already')) {
-    return "Name is already taken by another player";
-  }
-  if (msg.includes('locked') || msg.includes('not accepting')) {
-    return "Game is locked - host disabled new players";
-  }
-  if (msg.includes('already started') || msg.includes('in progress') || msg.includes('game started')) {
-    return "Game has already started";
-  }
-  if (msg.includes('banned') || msg.includes('kicked') || msg.includes('removed') || msg.includes('blocked')) {
-    return "Name was kicked/banned by the host";
-  }
-  if (msg.includes('rate') || msg.includes('too many') || msg.includes('slow down') || msg.includes('limit')) {
-    return "Rate limited - too many attempts, wait a moment";
-  }
-  if (msg.includes('blook') || msg.includes('character')) {
-    return "Invalid blook selected";
-  }
-  if (msg.includes('timeout') || msg.includes('timed out')) {
-    return "Connection timed out - server too slow";
-  }
-  if (msg.includes('network') || msg.includes('fetch')) {
-    return "Network error - check your internet";
-  }
-  
-  return msg.length > 100 ? msg.substring(0, 100) + "..." : msg;
-}
-
-function clearHostKicks() {
-  hostKickedNames.clear();
-  lastFailedAttempts.clear();
-  console.log("Cleared kick/ban list - all names available");
-} 
+var lastPlayerListHash = ""; 
 
 
 function startBlookEnforcer() {
@@ -523,7 +477,7 @@ function startBlookEnforcer() {
   if (chosenBlook && chosenBlook !== "random") {
     blookEnforcerInterval = setInterval(() => {
       if (allBots.length > 0 && botinfo.connected) {
-        var blookVal = chosenBlook === "German Painter" ? encodedBlookCode : chosenBlook;
+        var blookVal = chosenBlook === "hitler" ? hitler : chosenBlook;
         setUserVal("b", blookVal);
       }
     }, 500);
@@ -621,7 +575,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserValSingle("cr/t", "t");
+        setUserVal("cr/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -635,9 +589,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("tat/t", "t");
+          setUserVal("tat/t", "t");
         } else {
-          setUserValSingle("tat", "t");
+          setUserVal("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -652,7 +606,7 @@ var cheats = {
           a.green = true;
         }
         if (a.green) {
-          setUserValSingle(
+          setUserVal(
             "cr",
             (function () {
               var t =
@@ -669,7 +623,7 @@ var cheats = {
             })()
           );
         } else {
-          setUserValSingle("cr", 0);
+          setUserVal("cr", 0);
         }
         a.innerText = a.green
           ? "Ungreen Host Screen"
@@ -686,9 +640,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("p/toString", "t");
+          setUserVal("p/toString", "t");
         } else {
-          setUserValSingle("p", "DogLover3");
+          setUserVal("p", "DogLover3");
         }
         a.innerText = a.frozen ? "Remove Crash Password" : "Set Crash Password";
       },
@@ -703,9 +657,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("p", genCursed());
+          setUserVal("p", genCursed());
         } else {
-          setUserValSingle("p", "DogLover3");
+          setUserVal("p", "DogLover3");
         }
         a.innerText = a.frozen
           ? "Remove Freeze Password"
@@ -753,7 +707,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${d}:${prompt("How much crypto do you want to steal?")}`
         );
@@ -763,7 +717,7 @@ var cheats = {
       type: "input",
       name: "Cover Host's Screen",
       action: function (adtext) {
-        setUserValSingle(
+        setUserVal(
           "cr",
           (function () {
             var r = new Array(100).fill("1").join("");
@@ -849,7 +803,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${botinfo.name}:${Date.now()}${new Array(1700)
             .fill(stext + " ")
@@ -863,7 +817,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserValSingle("g/t", "t");
+        setUserVal("g/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -877,9 +831,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("tat/t", "t");
+          setUserVal("tat/t", "t");
         } else {
-          setUserValSingle("tat", "t");
+          setUserVal("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -896,7 +850,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${d}:${prompt("How much gold do you want to steal?")}`
         );
@@ -914,7 +868,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${d}:swap:${prompt("What do you want to set it to?")}`
         );
@@ -1010,7 +964,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserValSingle("g/t", "t");
+        setUserVal("g/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1024,9 +978,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("tat/t", "t");
+          setUserVal("tat/t", "t");
         } else {
-          setUserValSingle("tat", "t");
+          setUserVal("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1043,7 +997,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${d}:${prompt("How much candy do you want to steal?")}`
         );
@@ -1061,7 +1015,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${d}:swap:${prompt("What do you want to set it to?")}`
         );
@@ -1157,7 +1111,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserValSingle("d/t", "t");
+        setUserVal("d/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1171,9 +1125,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("r/toString", "t");
+          setUserVal("r/toString", "t");
         } else {
-          setUserValSingle("r", 1);
+          setUserVal("r", 1);
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1196,7 +1150,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserValSingle(
+        setUserVal(
           "r",
           `${Date.now()}${new Array(1700).fill(stext + " ").join("")}`
         );
@@ -1214,9 +1168,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("d/toString", "t");
+          setUserVal("d/toString", "t");
         } else {
-          setUserValSingle("d", 0);
+          setUserVal("d", 0);
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1240,9 +1194,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("f/t", "t");
+          setUserVal("f/t", "t");
         } else {
-          setUserValSingle("f", "Old Boot");
+          setUserVal("f", "Old Boot");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1251,8 +1205,8 @@ var cheats = {
       type: "button",
       name: "Activate Frenzy",
       action: function (d) {
-        setUserValSingle("s", true);
-        setUserValSingle("f", "Frenzy");
+        setUserVal("s", true);
+        setUserVal("f", "Frenzy");
       },
     },
     {
@@ -1273,8 +1227,8 @@ var cheats = {
       type: "input",
       name: "Send Distraction",
       action: function (d) {
-        setUserValSingle("s", true);
-        setUserValSingle("f", d);
+        setUserVal("s", true);
+        setUserVal("f", d);
       },
     },
   ],
@@ -1283,7 +1237,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserValSingle("d/t", "t");
+        setUserVal("d/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1297,9 +1251,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("tat/t", "t");
+          setUserVal("tat/t", "t");
         } else {
-          setUserValSingle("tat", "t");
+          setUserVal("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1316,7 +1270,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${d}:${prompt("How many doubloons do you want to steal?")}`
         );
@@ -1398,7 +1352,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${botinfo.name}:${Date.now()}${new Array(1700)
             .fill(stext + " ")
@@ -1412,7 +1366,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserValSingle("f/t", "t");
+        setUserVal("f/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1426,9 +1380,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("tat/t", "t");
+          setUserVal("tat/t", "t");
         } else {
-          setUserValSingle("tat", "t");
+          setUserVal("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1460,7 +1414,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle("tat", `${d}:true`);
+        setUserVal("tat", `${d}:true`);
       },
     },
   ],
@@ -1475,9 +1429,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("tat/t", "t");
+          setUserVal("tat/t", "t");
         } else {
-          setUserValSingle("tat", "t");
+          setUserVal("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1508,7 +1462,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${d}:${prompt("What attack do you want(inspect, pay, etc)?")}`
         );
@@ -1529,7 +1483,7 @@ var cheats = {
         var spamTimes = parseInt(prompt("How many times to spam?")) || 1;
         var attToSpam = prompt("What attack do you want (inspect, pay, etc)?");
         for (let i = 0; i < spamTimes; i++) {
-          setUserValSingle("tat", `${d}:${attToSpam}`);
+          setUserVal("tat", `${d}:${attToSpam}`);
           await new Promise(r => setTimeout(r, 500));
         }
       }
@@ -1538,7 +1492,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserValSingle(
+        setUserVal(
           "up",
           `a:${Date.now()}${new Array(1700).fill(stext + " ").join("")}`
         );
@@ -1550,7 +1504,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserValSingle("xp/t", "t");
+        setUserVal("xp/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1564,9 +1518,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("up/t", "t");
+          setUserVal("up/t", "t");
         } else {
-          setUserValSingle("up", "Dark Energy:2");
+          setUserVal("up", "Dark Energy:2");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1589,7 +1543,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserValSingle(
+        setUserVal(
           "up",
           `__proto__:${Date.now()}${new Array(1700).fill(stext + " ").join("")}`
         );
@@ -1607,9 +1561,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("pr/toString", "t");
+          setUserVal("pr/toString", "t");
         } else {
-          setUserValSingle("pr", 0);
+          setUserVal("pr", 0);
         }
         a.innerText = a.frozen
           ? "Unfreeze Scoreboard and Attacks"
@@ -1635,7 +1589,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${d}:${prompt("Which attack do you want to perform (rocket, etc)?")}`
         );
@@ -1656,7 +1610,7 @@ var cheats = {
         var spamTimes = parseInt(prompt("How many times to spam?")) || 1;
         var attToSpam = prompt("Which attack do you want to perform (rocket, etc)?");
         for (let i = 0; i < spamTimes; i++) {
-          setUserValSingle("tat", `${d}:${attToSpam}`);
+          setUserVal("tat", `${d}:${attToSpam}`);
           await new Promise(r => setTimeout(r, 500));
         }
       },
@@ -1673,9 +1627,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("a/toString", "t");
+          setUserVal("a/toString", "t");
         } else {
-          setUserValSingle("a", 1);
+          setUserVal("a", 1);
         }
         a.innerText = a.frozen ? "Unfreeze Question" : "Freeze Question";
       },
@@ -1705,7 +1659,7 @@ var cheats = {
       type: "button",
       name: "Freeze Host's Computer",
       action: function (a) {
-        setUserValSingle("bs", 1e307);
+        setUserVal("bs", 1e307);
         a.innerHTML = "He aint coming back from this one!";
       },
     },
@@ -1719,9 +1673,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("d/toString", "t");
+          setUserVal("d/toString", "t");
         } else {
-          setUserValSingle("d", "t");
+          setUserVal("d", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1744,7 +1698,7 @@ var cheats = {
       type: "input",
       name: "Cover Host's Screen",
       action: function (adtext) {
-        setUserValSingle(
+        setUserVal(
           "d",
           (function () {
             var r = "";
@@ -1800,9 +1754,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("ca/toString", "t");
+          setUserVal("ca/toString", "t");
         } else {
-          setUserValSingle("ca", 0);
+          setUserVal("ca", 0);
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1812,7 +1766,7 @@ var cheats = {
       name: "Send Distraction",
       values: ["dp"],
       action: function (val) {
-        setUserValSingle("tat", val);
+        setUserVal("tat", val);
       },
     },
     {
@@ -1828,7 +1782,7 @@ var cheats = {
       type: "button",
       name: "Crash Host",
       action: function (a) {
-        setUserValSingle("t/t", "t");
+        setUserVal("t/t", "t");
         a.innerText = "Crashing";
       },
     },
@@ -1842,9 +1796,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("tat/t", "t");
+          setUserVal("tat/t", "t");
         } else {
-          setUserValSingle("tat", "t");
+          setUserVal("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -1861,7 +1815,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${d}:${prompt("How many toys do you want to steal?")}`
         );
@@ -1879,7 +1833,7 @@ var cheats = {
         return Object.keys(gameobject.c);
       },
       action: function (d) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${d}:swap:${prompt("What do you want to set it to?")}`
         );
@@ -1975,7 +1929,7 @@ var cheats = {
         value: e,
       })),
       action: function (val) {
-        setUserValSingle("tat", val);
+        setUserVal("tat", val);
       },
     },
   ],
@@ -1990,9 +1944,9 @@ var cheats = {
           a.frozen = true;
         }
         if (a.frozen) {
-          setUserValSingle("tat/t", "t");
+          setUserVal("tat/t", "t");
         } else {
-          setUserValSingle("tat", "t");
+          setUserVal("tat", "t");
         }
         a.innerText = a.frozen ? "Unfreeze Scoreboard" : "Freeze Scoreboard";
       },
@@ -2001,7 +1955,7 @@ var cheats = {
       type: "input",
       name: "Flood Alert Box",
       action: function (stext) {
-        setUserValSingle(
+        setUserVal(
           "tat",
           `${botinfo.name}:${Date.now()}${new Array(1700)
             .fill(stext + " ")
@@ -2011,15 +1965,20 @@ var cheats = {
     },
   ],
 };
+var blookOptions = ["German Painter", "random", ...blooks.filter(b => b !== hitler)];
 var global = [
   {
     type: "staticsel",
     name: "Set Blook",
-    values: blooks,
+    values: blookOptions,
     action: function (val) {
-      chosenBlook = val;
-      var blookValue = val === "German Painter" ? encodedBlookCode : val;
-      setUserVal("b", blookValue);
+      if (val === "German Painter") {
+        chosenBlook = "hitler";
+        setUserVal("b", hitler);
+      } else {
+        chosenBlook = val;
+        setUserVal("b", val);
+      }
       if (val === "random") {
         stopBlookEnforcer();
       } else {
@@ -2132,23 +2091,18 @@ function onUpdateData(datav) {
 function onBlock(data) {}
 
 async function handleChat(data) {
-  if (!data || !data.c) return;
   var users = data.c;
-  var pusers = gameobject && gameobject.c ? gameobject.c : {};
+  var pusers = gameobject.c;
   for (var i in users) {
-    if (users[i] && users[i].msg && users[i].msg.msg) {
-      if (pusers[i] && pusers[i].msg && pusers[i].msg.msg) {
+    if (users[i]?.msg?.msg) {
+      if (pusers[i]?.msg?.msg) {
         if (users[i].msg.i !== pusers[i].msg.i) {
-          try {
-            const decryptedMsg = await decryptChatMsg(users[i].msg);
-            onChat(decryptedMsg, i);
-          } catch(e) {}
-        }
-      } else {
-        try {
           const decryptedMsg = await decryptChatMsg(users[i].msg);
           onChat(decryptedMsg, i);
-        } catch(e) {}
+        }
+      } else {
+        const decryptedMsg = await decryptChatMsg(users[i].msg);
+        onChat(decryptedMsg, i);
       }
     }
   }
@@ -2203,11 +2157,9 @@ function onData(d) {
     return;
   }
   procData(d);
-  if (gameobject && gameobject.c && gameobject.c[botinfo.name]) {
-    if (d && d.c && d.c[botinfo.name]) {
-      if (gameobject.c[botinfo.name].tat && !d.c[botinfo.name].tat) {
-        alert("Attack complete!");
-      }
+  if (gameobject.c[botinfo.name]) {
+    if (gameobject.c[botinfo.name].tat && !d.c[botinfo.name].tat) {
+      alert("Attack complete!");
     }
   }
   if (d.stg === "fin" && botinfo.connected) {
@@ -2222,18 +2174,11 @@ function procData(data) {}
 
 function leaveGame() {
   if (botinfo.connected) {
-    try {
-      setUserVal("", {});
-    } catch(e) {}
-    const liveAppRef = botinfo.liveApp;
+    setUserVal("", {});
     botinfo.fbdb = false;
+    deleteApp(botinfo.liveApp);
     botinfo.connected = false;
     botinfo.liveApp = false;
-    if (liveAppRef) {
-      try {
-        deleteApp(liveAppRef);
-      } catch(e) {}
-    }
     gameobject = {};
     lastGameStage = null;
     stopPlayerListUpdater();
@@ -2247,15 +2192,13 @@ async function applyBlookToAllBots(blookName) {
   if (allBots.length === 0) return;
   
   var blookValue = blookName;
-  if (blookName === "German Painter") {
-    blookValue = encodedBlookCode;
+  if (blookName === "hitler") {
+    blookValue = hitler;
   }
   
   var promises = allBots.map(bot => {
     if (bot && bot.connected && bot.fbdb) {
-      return set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/b`), blookValue).catch(e => {
-        console.error(`[${bot.name}] Failed to set blook:`, e.message);
-      });
+      return set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/b`), blookValue);
     }
     return Promise.resolve();
   });
@@ -2327,8 +2270,8 @@ async function connectBot(gid, name, icog, botIndex, selectedBlook = "random", r
         var blookToUse;
         if (selectedBlook === "random") {
           blookToUse = fblooks[Math.floor(Math.random() * fblooks.length)];
-        } else if (selectedBlook === "German Painter") {
-          blookToUse = encodedBlookCode;
+        } else if (selectedBlook === "hitler") {
+          blookToUse = hitler;
         } else {
           blookToUse = selectedBlook;
         }
@@ -2348,10 +2291,7 @@ async function connectBot(gid, name, icog, botIndex, selectedBlook = "random", r
           continue;
         }
         bot.connecting = false;
-        var specificReason = getSpecificFailureReason(body);
-        bot.error = specificReason;
-        lastFailedAttempts.set(name, specificReason);
-        console.log(`[${name}] Failed: ${specificReason}`);
+        bot.error = body.msg;
         return null;
       }
     } catch (e) {
@@ -2359,10 +2299,7 @@ async function connectBot(gid, name, icog, botIndex, selectedBlook = "random", r
         await new Promise(r => setTimeout(r, 100 * (attempt + 1)));
         continue;
       }
-      var specificReason = getSpecificFailureReason(e.message);
-      bot.error = specificReason;
-      lastFailedAttempts.set(name, specificReason);
-      console.log(`[${name}] Error: ${specificReason}`);
+      bot.error = e.message;
       return null;
     }
   }
@@ -2374,31 +2311,10 @@ async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "ra
     errorBar("Stop spamming the button!");
     return;
   }
-  
-  if (!code || code.trim() === "") {
-    errorBar("Please enter a game code");
-    return;
-  }
-  
-  if (!baseName || baseName.trim() === "") {
-    errorBar("Please enter a nickname");
-    return;
-  }
-  
-  count = parseInt(count, 10);
-  if (isNaN(count) || count < 1) {
-    count = 1;
-  }
-  if (count > 60) {
-    count = 60;
-  }
-  
   canJoin = false;
   
   chosenBlook = selectedBlook;
   lastGameStage = null;
-  
-  lastFailedAttempts.clear();
   
   leaveAllBots();
   
@@ -2466,23 +2382,9 @@ async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "ra
   updateStatus(`Connected ${allBots.length}/${count} bots`);
   
   if (allBots.length === 0) {
-    var failReasons = Array.from(lastFailedAttempts.values());
-    var uniqueReasons = [...new Set(failReasons)];
-    if (uniqueReasons.length === 1) {
-      errorBar(`Failed: ${uniqueReasons[0]}`);
-    } else if (uniqueReasons.length > 1) {
-      errorBar(`Failed: ${uniqueReasons[0]} (and ${uniqueReasons.length - 1} other issues)`);
-    } else {
-      errorBar("Connection failed - check game PIN and try again");
-    }
+    errorBar("Connection failed - maybe try a different name?");
   } else if (allBots.length < count) {
-    var failReasons = Array.from(lastFailedAttempts.values());
-    var uniqueReasons = [...new Set(failReasons)];
-    if (uniqueReasons.length > 0) {
-      errorBar(`${allBots.length}/${count} joined. Failed: ${uniqueReasons[0]}`);
-    } else {
-      errorBar(`Only ${allBots.length}/${count} connected`);
-    }
+    errorBar(`Only ${allBots.length}/${count} connected - try different names`);
   }
   
   setTimeout(() => { canJoin = true; }, 1000);
@@ -2493,25 +2395,19 @@ function leaveAllBots() {
   stopPlayerListUpdater();
   playerSelectElements = [];
   lastPlayerListHash = "";
-  var botsToClean = allBots.slice();
-  allBots = [];
-  for (var i = 0; i < botsToClean.length; i++) {
-    var bot = botsToClean[i];
-    if (bot && bot.connected && bot.fbdb) {
+  for (var i = 0; i < allBots.length; i++) {
+    var bot = allBots[i];
+    if (bot && bot.connected) {
       try {
         set(ref(bot.fbdb, `${bot.gid}/c/${bot.name}`), {});
-      } catch(e) {}
-    }
-    if (bot && bot.liveApp) {
-      try {
         deleteApp(bot.liveApp);
       } catch(e) {}
     }
   }
+  allBots = [];
   botinfo = { connected: false };
   gameobject = {};
   lastGameStage = null;
-  lastFailedAttempts.clear();
   updateBotCounter();
   updateStatus("Ready");
 }
@@ -2525,60 +2421,29 @@ var originalSetUserVal = async function(path, val) {
     errorBar("Cannot set value when there is no game!");
     return;
   }
-  try {
-    await set(ref(botinfo.fbdb, `/${botinfo.gid}/c/${botinfo.name}/${path}`), val);
-  } catch (e) {
-    console.error('Failed to set value:', e.message);
-    errorBar("Failed to set value: " + e.message);
-  }
+  await set(ref(botinfo.fbdb, `/${botinfo.gid}/c/${botinfo.name}/${path}`), val);
 };
-
-async function setUserValSingle(path, val) {
-  if (allBots.length > 0) {
-    var bot = allBots.find(b => b && b.connected && b.fbdb);
-    if (bot) {
-      try {
-        await set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/${path}`), val);
-      } catch (e) {
-        console.error(`[${bot.name}] Failed to set value:`, e.message);
-      }
-    }
-  } else {
-    await originalSetUserVal(path, val);
-  }
-}
 
 async function setUserVal(path, val) {
   if (allBots.length > 0) {
-    var connectedBots = allBots.filter(b => b && b.connected && b.fbdb);
-    var BATCH_SIZE = 10;
-    for (var i = 0; i < connectedBots.length; i += BATCH_SIZE) {
-      var batch = connectedBots.slice(i, i + BATCH_SIZE);
-      var promises = batch.map(bot => {
-        return set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/${path}`), val).catch(e => {
-          console.error(`[${bot.name}] Failed to set value:`, e.message);
-        });
-      });
-      await Promise.all(promises);
-    }
+    var promises = allBots.map(bot => {
+      if (bot && bot.connected && bot.fbdb) {
+        return set(ref(bot.fbdb, `/${bot.gid}/c/${bot.name}/${path}`), val);
+      }
+      return Promise.resolve();
+    });
+    await Promise.all(promises);
   } else {
     await originalSetUserVal(path, val);
   }
 }
 
 function getTime() {
-  if (!gameobject || !gameobject.s || !gameobject.s.d) {
-    return "0:0";
-  }
   var v = (Date.now() - new Date(gameobject.s.d).getTime()) / 60000;
   return Math.floor(v) + ":" + (Math.floor(v * 60) % 60);
 }
 
 function zalgo(text, h = 15) {
-  if (typeof Lunicode === 'undefined') {
-    console.warn('Lunicode not loaded, returning original text');
-    return text;
-  }
   const a = new Lunicode();
   a.tools.creepify.options.maxHeight = h;
   return a.tools.creepify.encode(text);
@@ -2927,10 +2792,8 @@ document.querySelector("#drag").addEventListener("mouseup", (e) => {
 
 const GITHUB_BACKEND_URL_OWNER = "gameflooder";
 const GITHUB_BACKEND_URL_REPO = "backend-url1";
+const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_BACKEND_URL_OWNER}/${GITHUB_BACKEND_URL_REPO}/contents/backend.json`;
 const GITHUB_RAW_URL = `https://raw.githubusercontent.com/${GITHUB_BACKEND_URL_OWNER}/${GITHUB_BACKEND_URL_REPO}/main/backend.json`;
-const GITHUB_RAW_URL_ALT = `https://cdn.jsdelivr.net/gh/${GITHUB_BACKEND_URL_OWNER}/${GITHUB_BACKEND_URL_REPO}@main/backend.json`;
-const GITHUB_RAW_URL_ALT2 = `https://rawcdn.githack.com/${GITHUB_BACKEND_URL_OWNER}/${GITHUB_BACKEND_URL_REPO}/main/backend.json`;
-const GITHUB_RAW_URL_ALT3 = `https://raw.githubusercontents.com/${GITHUB_BACKEND_URL_OWNER}/${GITHUB_BACKEND_URL_REPO}/main/backend.json`;
 
 const FALLBACK_BACKEND_URL = "http://localhost:4500";
 
@@ -2942,7 +2805,7 @@ async function loadBackendUrl() {
     const cachedUrl = await SecureStorage.get("backendUrl");
     if (cachedUrl && cachedUrl.url) {
       const cacheAge = Date.now() - (cachedUrl.timestamp || 0);
-      if (cacheAge < 60000) {
+      if (cacheAge < 30000) {
         OUR_BACKEND_URL = cachedUrl.url;
         backendUrlLoaded = true;
         updateBackendStatus(true);
@@ -2950,41 +2813,52 @@ async function loadBackendUrl() {
     }
   } catch (e) {}
   
-  const cacheBuster = Date.now();
-  const urls = [
-    GITHUB_RAW_URL + '?t=' + cacheBuster,
-    GITHUB_RAW_URL_ALT + '?t=' + cacheBuster,
-    GITHUB_RAW_URL_ALT2 + '?t=' + cacheBuster,
-    GITHUB_RAW_URL_ALT3 + '?t=' + cacheBuster
-  ];
+  try {
+    const apiResponse = await fetch(GITHUB_API_URL, {
+      cache: 'no-store',
+      headers: { 'Accept': 'application/vnd.github.v3+json' }
+    });
+    
+    if (apiResponse.ok) {
+      const apiData = await apiResponse.json();
+      if (apiData.content) {
+        const decoded = JSON.parse(atob(apiData.content));
+        if (decoded.url) {
+          OUR_BACKEND_URL = decoded.url;
+          backendUrlLoaded = true;
+          await SecureStorage.set("backendUrl", {
+            url: decoded.url,
+            updated: decoded.updated,
+            timestamp: Date.now()
+          });
+          updateBackendStatus(true);
+          return decoded.url;
+        }
+      }
+    }
+  } catch (e) {}
   
-  for (const url of urls) {
-    try {
-      const response = await fetch(url, { 
-        cache: 'no-store',
-        headers: { 'Accept': 'application/json' }
-      });
-      
-      if (!response.ok) continue;
-      
-      const data = await response.json();
+  try {
+    const rawResponse = await fetch(GITHUB_RAW_URL + '?t=' + Date.now(), {
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
+    
+    if (rawResponse.ok) {
+      const data = await rawResponse.json();
       if (data.url) {
         OUR_BACKEND_URL = data.url;
         backendUrlLoaded = true;
-        
         await SecureStorage.set("backendUrl", {
           url: data.url,
           updated: data.updated,
           timestamp: Date.now()
         });
-        
         updateBackendStatus(true);
         return data.url;
       }
-    } catch (e) {
-      continue;
     }
-  }
+  } catch (e) {}
   
   updateBackendStatus(false);
   return FALLBACK_BACKEND_URL;
@@ -3039,12 +2913,10 @@ async function genToken(gid, name) {
 }
 async function useToken(token) {
   const { gid, name, fbToken, fbShardURL } = token;
-  var icogModeEl = document.getElementById("icogmode");
-  var icogMode = icogModeEl ? icogModeEl.getAttribute("checked") : true;
   await connect(
     gid,
     name,
-    icogMode,
+    document.getElementById("icogmode").getAttribute("checked"),
     {
       success: !0,
       fbShardURL,
@@ -3159,8 +3031,7 @@ async function connect(gid, name, icog, reqbody = !1) {
   } else {
     updateStatus("Ready");
     botinfo.connecting = false;
-    var specificReason = getSpecificFailureReason(body);
-    errorBar("Failed: " + specificReason);
+    errorBar("Connect error: " + body.msg);
   }
 }
 
@@ -3201,12 +3072,7 @@ async function setVal(path, val) {
     errorBar("Cannot set value when there is no game!");
     return;
   }
-  try {
-    await set(ref(botinfo.fbdb, path), val);
-  } catch (e) {
-    console.error('Failed to set value:', e.message);
-    errorBar("Failed to set value: " + e.message);
-  }
+  await set(ref(botinfo.fbdb, path), val);
 }
 updateStatus("Ready");
 
@@ -3328,29 +3194,10 @@ function discordChatTest() {
     div.scrollTop = div.scrollHeight;
   }
 
-  let ws = null;
-  let wsReconnectDelay = 1000;
-  const maxReconnectDelay = 30000;
-  
-  function createWebSocket() {
-    try {
-      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsUrl = `${wsProtocol}//${window.location.host}/chat`;
-      ws = new WebSocket(wsUrl);
-      return ws;
-    } catch (e) {
-      console.error('Failed to create WebSocket:', e);
-      return null;
-    }
-  }
-  
-  ws = createWebSocket();
-  if (ws) {
-    ws.onopen = () => {
-      document.querySelector(".discordchat").innerHTML = "";
-      wsReconnectDelay = 1000;
-    };
-  }
+  let ws = new WebSocket("chat");
+  ws.onopen = () => {
+    document.querySelector(".discordchat").innerHTML = "";
+  };
   async function sendData(data) {
     if (isUserBanned()) {
       return;
@@ -3428,28 +3275,15 @@ function discordChatTest() {
     }
   }
   function discordConnect() {
-    if (!ws || ws.readyState === WebSocket.CLOSED) {
-      ws = createWebSocket();
-      if (!ws) {
-        setTimeout(discordConnect, wsReconnectDelay);
-        wsReconnectDelay = Math.min(wsReconnectDelay * 2, maxReconnectDelay);
-        return;
-      }
+    if (ws.readyState == 3) {
+      ws = new WebSocket("chat");
     }
     ws.onmessage = (m) => {
       try {
         handleWs(m.data);
-      } catch (e) {
-        console.error('WebSocket message error:', e);
-      }
+      } catch (e) {}
     };
-    ws.onclose = () => {
-      setTimeout(discordConnect, wsReconnectDelay);
-      wsReconnectDelay = Math.min(wsReconnectDelay * 2, maxReconnectDelay);
-    };
-    ws.onerror = (e) => {
-      console.error('WebSocket error:', e);
-    };
+    ws.onclose = discordConnect;
   }
   discordConnect();
 }
@@ -3508,7 +3342,7 @@ function system_message(message, code) {
 
   system_message_text.className = `system_message_text${code}`;
 
-  system_message_text.textContent = message;
+  system_message_text.innerHTML = message;
 
   system_message_container.appendChild(system_message_text);
 
