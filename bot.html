@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blooket Bot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5b4cdb;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
+            --bg-dark: #0c0c1e;
+            --bg-card: #16162a;
+            --bg-input: #1e1e3a;
+            --text: #ffffff;
+            --text-muted: #a0a0c0;
+            --success: #00b894;
+            --error: #d63031;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0c0c1e 0%, #1a1a3e 50%, #0c0c1e 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(108, 92, 231, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 206, 201, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(253, 121, 168, 0.1) 0%, transparent 40%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: var(--secondary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header { text-align: center; margin-bottom: 30px; }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header::before {
+            content: '';
+            width: 4px; height: 20px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .input-group { margin-bottom: 20px; }
+
+        .input-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .input-wrapper { position: relative; }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0.5;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            background: var(--bg-input);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+        }
+
+        input[type="text"]::placeholder { color: var(--text-muted); opacity: 0.5; }
+
+        select {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            background: var(--bg-input);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+        }
+
+        select option {
+            background: var(--bg-dark);
+            color: var(--text);
+            padding: 10px;
+        }
+
+        .toggles { display: flex; flex-direction: column; gap: 15px; margin: 25px 0; }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: var(--bg-input);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-row:hover { background: rgba(108, 92, 231, 0.1); }
+
+        .toggle-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        checkbox {
+            position: relative;
+            width: 50px; height: 28px;
+            background: var(--bg-dark);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        checkbox::before {
+            content: '';
+            position: absolute;
+            width: 22px; height: 22px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            top: 3px; left: 3px;
+            transition: all 0.3s ease;
+        }
+
+        checkbox[checked] { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        checkbox[checked]::before { transform: translateX(22px); background: white; }
+
+        .join-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.4);
+        }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .status-dot {
+            width: 10px; height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.4); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(0, 184, 148, 0); }
+        }
+
+        #status { font-weight: 600; color: var(--text-muted); }
+        #ctrlpanel { width: 100%; }
+
+        .normtext {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 15px 0 10px;
+        }
+
+        .cheatcontainer { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; }
+
+        .cheatcontainer button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--secondary), #00b894);
+            border: none;
+            border-radius: 10px;
+            color: var(--bg-dark);
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .cheatcontainer button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 206, 201, 0.4);
+        }
+
+        .inputcontainer {
+            background: var(--bg-input);
+            border-radius: 10px;
+            padding: 10px 15px;
+            display: inline-flex;
+            flex-direction: column;
+            gap: 5px;
+            min-width: 150px;
+        }
+
+        .inputcontainer > div { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+
+        .inputcontainer input,
+        .inputcontainer select {
+            background: var(--bg-dark);
+            border: none;
+            border-radius: 6px;
+            padding: 8px 10px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .errorBar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: linear-gradient(135deg, var(--error), #c0392b);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-weight: 600;
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+        }
+
+        .errorBar.show { transform: translateY(0); }
+
+        .chat {
+            position: fixed;
+            left: 20px; top: 100px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        #drag {
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            cursor: move;
+            user-select: none;
+            font-weight: 700;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .chatcontainer {
+            width: 350px; height: 250px;
+            background: var(--bg-dark);
+            margin: 10px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column-reverse;
+            overflow-y: auto;
+        }
+
+        .chatmsg { padding: 8px 12px; font-size: 0.85rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+
+        #chat {
+            margin: 10px;
+            padding: 12px;
+            background: var(--bg-input);
+            border: none;
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            width: calc(100% - 20px);
+        }
+
+        #chat:focus { outline: none; box-shadow: 0 0 0 2px var(--primary); }
+
+        .links { text-align: center; margin-top: 20px; }
+        .links a { color: var(--secondary); text-decoration: none; font-weight: 600; }
+        .links a:hover { color: var(--primary); }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 4.5s;"></div>
+    </div>
+
+    <div class="errorBar" id="error"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">🎮</div>
+            <h1 class="title">Blooket Bot</h1>
+            <p class="subtitle">Join any game instantly</p>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-dot"></div>
+            <span id="status">Loading...</span>
+        </div>
+
+        <div class="card" id="cc">
+            <div class="card-header">Join a Game</div>
+
+            <div class="input-group">
+                <label class="input-label">Game Code</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🎯</span>
+                    <input type="text" id="gcode" placeholder="1234567" maxlength="7">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Nickname</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="gname" placeholder="YourName">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Number of Bots</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🤖</span>
+                    <input type="text" id="botcount" placeholder="1" value="1" maxlength="3">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Blook</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🎨</span>
+                    <select id="blookSelect">
+                        <option value="hitler">🎨 German Painter</option>
+                        <option value="random">🎲 Random</option>
+                        <option value="Chick">🐤 Chick</option>
+                        <option value="Chicken">🐔 Chicken</option>
+                        <option value="Cow">🐄 Cow</option>
+                        <option value="Goat">🐐 Goat</option>
+                        <option value="Horse">🐴 Horse</option>
+                        <option value="Pig">🐷 Pig</option>
+                        <option value="Sheep">🐑 Sheep</option>
+                        <option value="Duck">🦆 Duck</option>
+                        <option value="Alpaca">🦙 Alpaca</option>
+                        <option value="Dog">🐕 Dog</option>
+                        <option value="Cat">🐱 Cat</option>
+                        <option value="Rabbit">🐰 Rabbit</option>
+                        <option value="Goldfish">🐠 Goldfish</option>
+                        <option value="Hamster">🐹 Hamster</option>
+                        <option value="Turtle">🐢 Turtle</option>
+                        <option value="Kitten">😺 Kitten</option>
+                        <option value="Puppy">🐶 Puppy</option>
+                        <option value="Bear">🐻 Bear</option>
+                        <option value="Moose">🫎 Moose</option>
+                        <option value="Fox">🦊 Fox</option>
+                        <option value="Raccoon">🦝 Raccoon</option>
+                        <option value="Squirrel">🐿️ Squirrel</option>
+                        <option value="Owl">🦉 Owl</option>
+                        <option value="Hedgehog">🦔 Hedgehog</option>
+                        <option value="Deer">🦌 Deer</option>
+                        <option value="Wolf">🐺 Wolf</option>
+                        <option value="Beaver">🦫 Beaver</option>
+                        <option value="Tiger">🐯 Tiger</option>
+                        <option value="Orangutan">🦧 Orangutan</option>
+                        <option value="Cockatoo">🦜 Cockatoo</option>
+                        <option value="Parrot">🦜 Parrot</option>
+                        <option value="Anaconda">🐍 Anaconda</option>
+                        <option value="Jaguar">🐆 Jaguar</option>
+                        <option value="Macaw">🦜 Macaw</option>
+                        <option value="Toucan">🦜 Toucan</option>
+                        <option value="Panther">🐈‍⬛ Panther</option>
+                        <option value="Capuchin">🐒 Capuchin</option>
+                        <option value="Rainbow Astronaut">🧑‍🚀 Rainbow Astronaut</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="toggles">
+                <div class="toggle-row">
+                    <div class="toggle-label"><span>🎭</span> Incognito Mode</div>
+                    <checkbox id="icogmode" checked="true"></checkbox>
+                </div>
+
+                <div class="toggle-row">
+                    <div class="toggle-label"><span>🔓</span> Bypass Filter</div>
+                    <checkbox id="bcf"></checkbox>
+                </div>
+
+                <div class="toggle-row">
+                    <div class="toggle-label"><span>🏆</span> First Place Mode</div>
+                    <checkbox id="fpswitch" checked="true"></checkbox>
+                </div>
+            </div>
+
+            <button class="join-btn" onclick="join()">🚀 Join Game</button>
+            
+            <button class="join-btn kill-btn" onclick="killAllBots()" style="margin-top: 10px; background: linear-gradient(135deg, var(--error), #c0392b);">💀 Kill All Bots</button>
+            
+            <div class="bot-counter" id="botCounter" style="text-align: center; margin-top: 15px; padding: 10px; background: var(--bg-input); border-radius: 10px; display: none;">
+                <span style="color: var(--text-muted); font-size: 0.85rem;">Active Bots: </span>
+                <span id="activeBotCount" style="color: var(--secondary); font-weight: 700;">0</span>
+            </div>
+        </div>
+
+        <div id="ctrlpanel"></div>
+
+        <div class="links">
+            <a href="https://discord.gg/FcYy4uHUws" target="_blank">💬 Join Discord</a>
+        </div>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat" style="left: 20px; top: 100px;">
+        <div id="drag">💬 Chat</div>
+        <div class="chatcontainer">
+            <div class="chatmsg"></div>
+        </div>
+        <input type="text" id="chat" placeholder="Type a message...">
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        import { getAuth, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+        import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+        
+        window.initializeApp = initializeApp;
+        window.deleteApp = deleteApp;
+        window.getAuth = getAuth;
+        window.signInWithCustomToken = signInWithCustomToken;
+        window.getDatabase = getDatabase;
+        window.ref = ref;
+        window.set = set;
+        window.get = get;
+        window.onValue = onValue;
+
+        const urlcode = new URLSearchParams(window.location.search).get("code");
+        if (urlcode) document.querySelector("#gcode").value = urlcode;
+    </script>
+
+    <script src="https://zalgo.org/lunicode.js"></script>
+
+    <script>
+        function join() {
+            var cin = document.getElementById("gcode");
+            var name = document.getElementById("gname");
+            var botCount = parseInt(document.getElementById("botcount").value) || 1;
+            botCount = Math.min(Math.max(botCount, 1), 100); // Limit 1-100 bots
+            
+            var icog = document.getElementById("icogmode").getAttribute("checked") ? true : false;
+            var selectedBlook = document.getElementById("blookSelect").value;
+            
+            // Join multiple bots simultaneously
+            joinMultipleBots(cin.value, name.value, botCount, icog, selectedBlook);
+        }
+
+        function killAllBots() {
+            leaveAllBots();
+        }
+
+        function errorBar(error) {
+            var e = document.getElementById("error");
+            e.innerText = error;
+            e.classList.add("show");
+            setTimeout(() => e.classList.remove("show"), 4000);
+        }
+
+        // Wait for DOM to be ready before attaching toggle handlers
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll("checkbox").forEach((e) => {
+                e.addEventListener("click", function () {
+                    if (e.getAttribute("checked")) e.removeAttribute("checked");
+                    else e.setAttribute("checked", "true");
+                });
+            });
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

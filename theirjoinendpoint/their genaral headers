@@ -1,0 +1,90 @@
+ Request URL
+https://blooketbot.schoolcheats.net/join
+Request Method
+POST
+Status Code
+200 OK
+Remote Address
+[2606:4700:3033::6815:22b4]:443
+Referrer Policy
+same-origin
+alt-svc
+h3=":443"; ma=86400
+cf-cache-status
+DYNAMIC
+cf-ray
+9b24f5c28cd4cd1f-LAX
+content-encoding
+zstd
+content-type
+text/html; charset=utf-8
+date
+Tue, 23 Dec 2025 04:01:50 GMT
+etag
+W/"3a3-lB8vO6bUtWzkihJ7KKaQebD412Y"
+expect-ct
+max-age=86400, enforce
+nel
+{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+priority
+u=1,i
+referrer-policy
+same-origin
+report-to
+{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=fovg67YSG2WwYfuqAorp0z%2BRMbQ7mYUjm4Zldd58gWbg3qT76wgrfNaa0wvFLRN6pfPDE4zdWPITfBduF3q76iVoU4WjlX9mnGBcyUZqPLbeIv9zqFBsXCiuQ26irF9pfvJKs1D1FA%3D%3D"}]}
+server
+cloudflare
+server-timing
+cfExtPri
+vary
+accept-encoding
+x-content-type-options
+nosniff
+x-frame-options
+SAMEORIGIN
+x-powered-by
+Express
+x-xss-protection
+1; mode=block
+:authority
+blooketbot.schoolcheats.net
+:method
+POST
+:path
+/join
+:scheme
+https
+accept
+*/*
+accept-encoding
+gzip, deflate, br, zstd
+accept-language
+en-US,en;q=0.9
+content-length
+30
+content-type
+application/json
+cookie
+twk_uuid_68e016cb243dae1952fef33c=%7B%22uuid%22%3A%221.2BjBjox7dpVKAZLwehmQl4OjFDlvTGi8hhQprvYuRqFRi7yBrTSil2N14jkW00IDmFFmUELrnPPyQRsMVgGaFM8YfSKqqXVB52Fv5C7gxelhBpsRg7kvCJ1jsoJ%22%2C%22version%22%3A3%2C%22domain%22%3A%22schoolcheats.net%22%2C%22ts%22%3A1763605515085%7D
+origin
+https://blooketbot.schoolcheats.net
+prefer
+safe
+priority
+u=1, i
+referer
+https://blooketbot.schoolcheats.net/
+sec-ch-ua
+"Microsoft Edge";v="143", "Chromium";v="143", "Not A(Brand";v="24"
+sec-ch-ua-mobile
+?0
+sec-ch-ua-platform
+"Windows"
+sec-fetch-dest
+empty
+sec-fetch-mode
+cors
+sec-fetch-site
+same-origin
+user-agent
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0

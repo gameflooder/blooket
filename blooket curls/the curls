@@ -1,0 +1,203 @@
+https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyCA-cTOnX19f6LFnDVVsHXya3k6ByP_MnU :curl ^"https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyCA-cTOnX19f6LFnDVVsHXya3k6ByP_MnU^" ^
+  -H ^"accept: */*^" ^
+  -H ^"accept-language: en-US,en;q=0.9^" ^
+  -H ^"content-type: application/json^" ^
+  -H ^"origin: https://cryptohack.blooket.com^" ^
+  -H ^"prefer: safe^" ^
+  -H ^"priority: u=1, i^" ^
+  -H ^"sec-ch-ua: ^\^"Microsoft Edge^\^";v=^\^"143^\^", ^\^"Chromium^\^";v=^\^"143^\^", ^\^"Not A(Brand^\^";v=^\^"24^\^"^" ^
+  -H ^"sec-ch-ua-mobile: ?0^" ^
+  -H ^"sec-ch-ua-platform: ^\^"Windows^\^"^" ^
+  -H ^"sec-fetch-dest: empty^" ^
+  -H ^"sec-fetch-mode: cors^" ^
+  -H ^"sec-fetch-site: cross-site^" ^
+  -H ^"user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0^" ^
+  -H ^"x-client-version: Chrome/JsCore/10.14.1/FirebaseCore-web^" ^
+  -H ^"x-firebase-gmpid: 1:741533559105:web:b8cbb10e6123f2913519c0^" ^
+  --data-raw ^"^{^\^"token^\^":^\^"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1hbXhrd0BibG9va2V0LTIwMjAuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImV4cCI6MTc2NzUwMDU3NCwiaWF0IjoxNzY3NDk2OTc0LCJzdWIiOiJmaXJlYmFzZS1hZG1pbnNkay1hbXhrd0BibG9va2V0LTIwMjAuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJ1aWQiOiIxNTQ3MjQwOmZmZiIsImNsYWltcyI6eyJpZCI6IjE1NDcyNDAiLCJuYW1lIjoiZmZmIn19.Ht81v81ib22Qf9WmrN4IrPAn7eEZcaFDQegGfZSCBCvmrasso-FNQKDLtH82e5e59f2bYtALZouIK9PWR-04PJhNmrPACZ8xuTeU1Jcog3cMPPtGhUUhlpNofsG7vrK_mWYQ6U6rgDdY0_43Nq7nwXiayDY0LX9wkpC5I6ascrhIvlfrEQYt4cvxIs0E-3E8Q7af12kCJzcum4XkDmAI3xFLHC8l4XRBCEh0lodQeWu79C8TbF9uipNKfFD5rnldxOmn6qfCb2E4Nu5r9nhhg8se-Trg-GoAAtuHbpe4O0tsAd14djqyAlQNTBM9wz6Mj_XtGtcxRs3uvztFKZNo9w^\^",^\^"returnSecureToken^\^":true^}^" 
+
+
+  https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCA-cTOnX19f6LFnDVVsHXya3k6ByP_MnU : curl ^"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCA-cTOnX19f6LFnDVVsHXya3k6ByP_MnU^" ^
+  -H ^"accept: */*^" ^
+  -H ^"accept-language: en-US,en;q=0.9^" ^
+  -H ^"content-type: application/json^" ^
+  -H ^"origin: https://cryptohack.blooket.com^" ^
+  -H ^"prefer: safe^" ^
+  -H ^"priority: u=1, i^" ^
+  -H ^"sec-ch-ua: ^\^"Microsoft Edge^\^";v=^\^"143^\^", ^\^"Chromium^\^";v=^\^"143^\^", ^\^"Not A(Brand^\^";v=^\^"24^\^"^" ^
+  -H ^"sec-ch-ua-mobile: ?0^" ^
+  -H ^"sec-ch-ua-platform: ^\^"Windows^\^"^" ^
+  -H ^"sec-fetch-dest: empty^" ^
+  -H ^"sec-fetch-mode: cors^" ^
+  -H ^"sec-fetch-site: cross-site^" ^
+  -H ^"user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0^" ^
+  -H ^"x-client-version: Chrome/JsCore/10.14.1/FirebaseCore-web^" ^
+  -H ^"x-firebase-gmpid: 1:741533559105:web:b8cbb10e6123f2913519c0^" ^
+  --data-raw ^"^{^\^"idToken^\^":^\^"eyJhbGciOiJSUzI1NiIsImtpZCI6ImEzOGVhNmEwNDA4YjBjYzVkYTE4OWRmYzg4ODgyZDBmMWI3ZmJmMGUiLCJ0eXAiOiJKV1QifQ.eyJpZCI6IjE1NDcyNDAiLCJuYW1lIjoiZmZmIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2Jsb29rZXQtMjAyMCIsImF1ZCI6ImJsb29rZXQtMjAyMCIsImF1dGhfdGltZSI6MTc2NzQ5Njk3NCwidXNlcl9pZCI6IjE1NDcyNDA6ZmZmIiwic3ViIjoiMTU0NzI0MDpmZmYiLCJpYXQiOjE3Njc0OTY5NzQsImV4cCI6MTc2NzUwMDU3NCwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6e30sInNpZ25faW5fcHJvdmlkZXIiOiJjdXN0b20ifX0.UbXHG4ljDy-1byAthlxRPgtYKD_-TV1uQViBirS8IO2VCQp0RUl7DDGj05umnBQN_0RvGXJUCcxW6Eia4e77IMmfxKyZ0q5NncEo3XlIIGtGc2H1NymAo9_0fdaQMDGvD0eNFM-INajpOqu8gkkEzx0KRW7JvQhPTj-uUMo4p0gscEn0i88UJy2lPv9PMDf-6gHIDVTZT5Y3MOTNt7vj02On4KxxCxX-Wwew9KWZlO_NkCw-uYH2KKK9wwh-2bDuA91KGn9_nF8MVjgHgB3AMV-c80W9tImKxiY3OtxMu8C95_rOO2Q61eusiVJunHlfCtU6GSUV53hlPxQfIE5cYA^\^"^}^"   
+
+  https://cryptohack.blooket.com/api/questionsets/detailforplayregisterpage?id=5f7a42f999b7670004e84838 :  curl ^"https://cryptohack.blooket.com/api/questionsets/detailforplayregisterpage?id=5f7a42f999b7670004e84838^" ^
+  -H ^"accept: application/json, text/plain, */*^" ^
+  -H ^"accept-language: en-US,en;q=0.9^" ^
+  -b ^"cookieyes-consent=consentid:RlEyM3lNUGdIcUZRZ1JJbDNLUEl6ZG5XdFE3bTZ1ZW0,consent:yes,action:yes,necessary:yes,analytics:yes,advertisement:yes,lastRenewedDate:1752694071000; _ga=GA1.1.539811041.1762717669; bcid=^%^7B^%^22i^%^22^%^3A^%^20^%^22d945be5b-ae0d-4c80-82d5-8027df3cede7^%^22^%^2C^%^20^%^22r^%^22^%^3A^%^201768854540375^%^7D; _b2_csrf_id=MTc2NzQ5MzUyMnxJbWwwT1RsMWVuaE9lRkpYV1RsaVR5OVNWblk1Vkc1WlRHMXJha053UzBodlNHbzVVWEo0VGtOYVVrVTlJZ289fIjvhUDsdqLQYGXoRgOjCYZfkv3kEBwU0l0LtbK_1Cxi; bsid=MTc2NzQ5MzUyOXwySDJZSE9DT2VpZzBDaXZRX1o5eXdwS1lwTkN0UjczYU9rQnVXNkFUeElnVXU1b2hMRzMxZ2lsdHBCMD180ouI60S41D4HMWDCLDziM76oem6M20bihp74jahq17I=; _bp_csrf_id=MTc2NzQ5MzU0MHxJbk5MV1VjeE5YaE5WMFZrYVVsalZYUmpkMnRPVmtOVlJ6QjVOVUZLZEUwd1YzRTNiV2xSWm5kbmRGVTlJZ289fPUAOwX5K32ebYzSSKj6fRTJMkGUOcRxH_GzVD-hUCqB; _cfuvid=PuQPpBvqq610KZkTCatgp6ngdLE1ASmw68jy54GS8EE-1767493753046-0.0.1.1-604800000; __cf_bm=AHORGQ7R6tb9GZOfuLcll6ncBmNzgoleJ2emn6uUQmc-1767496460-1.0.1.1-VkI.FcxFN7eqmKHm_dBHoN89Wrjy5xeD3wsQRpaGvFJcClbsxtmsMrh9W.mzlqD6ogi_AXw9T76RFur.93hjDtPcl0w9W8GILMeA0onWhUw; cf_clearance=fs8pQqnWtku9crgBBNY8kCQ5UAn23CNGX6e.O8nIt8U-1767496587-1.2.1.1-BZQI95hvbEDwn2afx3Zu9go.F25yyF4ANQE3HDkEcBuuhPNOaw087FMui3E0UyvsV9DLhAEmIv_dNAxVRqqiEgtuKKA9G6Mq_fpkuLSJjNMEIF3E3ngLNmo_NVJpdqQWpcp1.3mHs.7wK.1vb0PXgD7y5R0VVf7yr.kJ.i1YaDZfIiJvpnPAubxXp_zuB4dL_o0UvJp27GcYHAVyVvfGOpQCFTlGQlFcfbTmUKUNDKM; _ga_XPTRQH7XY5=GS2.1.s1767496606^$o2^$g0^$t1767496632^$j60^$l0^$h0^" ^
+  -H ^"prefer: safe^" ^
+  -H ^"priority: u=1, i^" ^
+  -H ^"referer: https://cryptohack.blooket.com/play/register^" ^
+  -H ^"sec-ch-ua: ^\^"Microsoft Edge^\^";v=^\^"143^\^", ^\^"Chromium^\^";v=^\^"143^\^", ^\^"Not A(Brand^\^";v=^\^"24^\^"^" ^
+  -H ^"sec-ch-ua-mobile: ?0^" ^
+  -H ^"sec-ch-ua-platform: ^\^"Windows^\^"^" ^
+  -H ^"sec-fetch-dest: empty^" ^
+  -H ^"sec-fetch-mode: cors^" ^
+  -H ^"sec-fetch-site: same-origin^" ^
+  -H ^"user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0^" 
+
+  https://fb.blooket.com/c/firebase/join :  curl ^"https://fb.blooket.com/c/firebase/join^" ^
+  -X ^"PUT^" ^
+  -H ^"accept: application/json, text/plain, */*^" ^
+  -H ^"accept-language: en-US,en;q=0.9^" ^
+  -H ^"content-type: application/json^" ^
+  -b ^"cookieyes-consent=consentid:RlEyM3lNUGdIcUZRZ1JJbDNLUEl6ZG5XdFE3bTZ1ZW0,consent:yes,action:yes,necessary:yes,analytics:yes,advertisement:yes,lastRenewedDate:1752694071000; _ga=GA1.1.539811041.1762717669; bcid=^%^7B^%^22i^%^22^%^3A^%^20^%^22d945be5b-ae0d-4c80-82d5-8027df3cede7^%^22^%^2C^%^20^%^22r^%^22^%^3A^%^201768854540375^%^7D; _b2_csrf_id=MTc2NzQ5MzUyMnxJbWwwT1RsMWVuaE9lRkpYV1RsaVR5OVNWblk1Vkc1WlRHMXJha053UzBodlNHbzVVWEo0VGtOYVVrVTlJZ289fIjvhUDsdqLQYGXoRgOjCYZfkv3kEBwU0l0LtbK_1Cxi; bsid=MTc2NzQ5MzUyOXwySDJZSE9DT2VpZzBDaXZRX1o5eXdwS1lwTkN0UjczYU9rQnVXNkFUeElnVXU1b2hMRzMxZ2lsdHBCMD180ouI60S41D4HMWDCLDziM76oem6M20bihp74jahq17I=; _cfuvid=PuQPpBvqq610KZkTCatgp6ngdLE1ASmw68jy54GS8EE-1767493753046-0.0.1.1-604800000; __cf_bm=AHORGQ7R6tb9GZOfuLcll6ncBmNzgoleJ2emn6uUQmc-1767496460-1.0.1.1-VkI.FcxFN7eqmKHm_dBHoN89Wrjy5xeD3wsQRpaGvFJcClbsxtmsMrh9W.mzlqD6ogi_AXw9T76RFur.93hjDtPcl0w9W8GILMeA0onWhUw; cf_clearance=fs8pQqnWtku9crgBBNY8kCQ5UAn23CNGX6e.O8nIt8U-1767496587-1.2.1.1-BZQI95hvbEDwn2afx3Zu9go.F25yyF4ANQE3HDkEcBuuhPNOaw087FMui3E0UyvsV9DLhAEmIv_dNAxVRqqiEgtuKKA9G6Mq_fpkuLSJjNMEIF3E3ngLNmo_NVJpdqQWpcp1.3mHs.7wK.1vb0PXgD7y5R0VVf7yr.kJ.i1YaDZfIiJvpnPAubxXp_zuB4dL_o0UvJp27GcYHAVyVvfGOpQCFTlGQlFcfbTmUKUNDKM; _ga_XPTRQH7XY5=GS2.1.s1767496606^$o2^$g0^$t1767496632^$j60^$l0^$h0^" ^
+  -H ^"origin: https://cryptohack.blooket.com^" ^
+  -H ^"prefer: safe^" ^
+  -H ^"priority: u=1, i^" ^
+  -H ^"referer: https://cryptohack.blooket.com/^" ^
+  -H ^"sec-ch-ua: ^\^"Microsoft Edge^\^";v=^\^"143^\^", ^\^"Chromium^\^";v=^\^"143^\^", ^\^"Not A(Brand^\^";v=^\^"24^\^"^" ^
+  -H ^"sec-ch-ua-mobile: ?0^" ^
+  -H ^"sec-ch-ua-platform: ^\^"Windows^\^"^" ^
+  -H ^"sec-fetch-dest: empty^" ^
+  -H ^"sec-fetch-mode: cors^" ^
+  -H ^"sec-fetch-site: same-site^" ^
+  -H ^"user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0^" ^
+  --data-raw ^"^{^\^"id^\^":^\^"1547240^\^",^\^"name^\^":^\^"fff^\^"^}^"  
+
+  https://cryptohack.blooket.com/api/users/unlocks :  curl ^"https://cryptohack.blooket.com/api/users/unlocks^" ^
+  -H ^"accept: application/json, text/plain, */*^" ^
+  -H ^"accept-language: en-US,en;q=0.9^" ^
+  -b ^"cookieyes-consent=consentid:RlEyM3lNUGdIcUZRZ1JJbDNLUEl6ZG5XdFE3bTZ1ZW0,consent:yes,action:yes,necessary:yes,analytics:yes,advertisement:yes,lastRenewedDate:1752694071000; _ga=GA1.1.539811041.1762717669; bcid=^%^7B^%^22i^%^22^%^3A^%^20^%^22d945be5b-ae0d-4c80-82d5-8027df3cede7^%^22^%^2C^%^20^%^22r^%^22^%^3A^%^201768854540375^%^7D; _b2_csrf_id=MTc2NzQ5MzUyMnxJbWwwT1RsMWVuaE9lRkpYV1RsaVR5OVNWblk1Vkc1WlRHMXJha053UzBodlNHbzVVWEo0VGtOYVVrVTlJZ289fIjvhUDsdqLQYGXoRgOjCYZfkv3kEBwU0l0LtbK_1Cxi; bsid=MTc2NzQ5MzUyOXwySDJZSE9DT2VpZzBDaXZRX1o5eXdwS1lwTkN0UjczYU9rQnVXNkFUeElnVXU1b2hMRzMxZ2lsdHBCMD180ouI60S41D4HMWDCLDziM76oem6M20bihp74jahq17I=; _bp_csrf_id=MTc2NzQ5MzU0MHxJbk5MV1VjeE5YaE5WMFZrYVVsalZYUmpkMnRPVmtOVlJ6QjVOVUZLZEUwd1YzRTNiV2xSWm5kbmRGVTlJZ289fPUAOwX5K32ebYzSSKj6fRTJMkGUOcRxH_GzVD-hUCqB; _cfuvid=PuQPpBvqq610KZkTCatgp6ngdLE1ASmw68jy54GS8EE-1767493753046-0.0.1.1-604800000; __cf_bm=AHORGQ7R6tb9GZOfuLcll6ncBmNzgoleJ2emn6uUQmc-1767496460-1.0.1.1-VkI.FcxFN7eqmKHm_dBHoN89Wrjy5xeD3wsQRpaGvFJcClbsxtmsMrh9W.mzlqD6ogi_AXw9T76RFur.93hjDtPcl0w9W8GILMeA0onWhUw; cf_clearance=fs8pQqnWtku9crgBBNY8kCQ5UAn23CNGX6e.O8nIt8U-1767496587-1.2.1.1-BZQI95hvbEDwn2afx3Zu9go.F25yyF4ANQE3HDkEcBuuhPNOaw087FMui3E0UyvsV9DLhAEmIv_dNAxVRqqiEgtuKKA9G6Mq_fpkuLSJjNMEIF3E3ngLNmo_NVJpdqQWpcp1.3mHs.7wK.1vb0PXgD7y5R0VVf7yr.kJ.i1YaDZfIiJvpnPAubxXp_zuB4dL_o0UvJp27GcYHAVyVvfGOpQCFTlGQlFcfbTmUKUNDKM; _ga_XPTRQH7XY5=GS2.1.s1767496606^$o2^$g0^$t1767496632^$j60^$l0^$h0^" ^
+  -H ^"prefer: safe^" ^
+  -H ^"priority: u=1, i^" ^
+  -H ^"referer: https://cryptohack.blooket.com/play/lobby^" ^
+  -H ^"sec-ch-ua: ^\^"Microsoft Edge^\^";v=^\^"143^\^", ^\^"Chromium^\^";v=^\^"143^\^", ^\^"Not A(Brand^\^";v=^\^"24^\^"^" ^
+  -H ^"sec-ch-ua-mobile: ?0^" ^
+  -H ^"sec-ch-ua-platform: ^\^"Windows^\^"^" ^
+  -H ^"sec-fetch-dest: empty^" ^
+  -H ^"sec-fetch-mode: cors^" ^
+  -H ^"sec-fetch-site: same-origin^" ^
+  -H ^"user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0^" 
+
+  https://cryptohack.blooket.com/apipb/playservice.v1.PlayService/Me :  curl ^"https://cryptohack.blooket.com/apipb/playservice.v1.PlayService/Me^" ^
+  -X ^"POST^" ^
+  -H ^"accept: */*^" ^
+  -H ^"accept-language: en-US,en;q=0.9^" ^
+  -H ^"connect-protocol-version: 1^" ^
+  -H ^"content-length: 0^" ^
+  -H ^"content-type: application/proto^" ^
+  -b ^"cookieyes-consent=consentid:RlEyM3lNUGdIcUZRZ1JJbDNLUEl6ZG5XdFE3bTZ1ZW0,consent:yes,action:yes,necessary:yes,analytics:yes,advertisement:yes,lastRenewedDate:1752694071000; _ga=GA1.1.539811041.1762717669; bcid=^%^7B^%^22i^%^22^%^3A^%^20^%^22d945be5b-ae0d-4c80-82d5-8027df3cede7^%^22^%^2C^%^20^%^22r^%^22^%^3A^%^201768854540375^%^7D; _b2_csrf_id=MTc2NzQ5MzUyMnxJbWwwT1RsMWVuaE9lRkpYV1RsaVR5OVNWblk1Vkc1WlRHMXJha053UzBodlNHbzVVWEo0VGtOYVVrVTlJZ289fIjvhUDsdqLQYGXoRgOjCYZfkv3kEBwU0l0LtbK_1Cxi; bsid=MTc2NzQ5MzUyOXwySDJZSE9DT2VpZzBDaXZRX1o5eXdwS1lwTkN0UjczYU9rQnVXNkFUeElnVXU1b2hMRzMxZ2lsdHBCMD180ouI60S41D4HMWDCLDziM76oem6M20bihp74jahq17I=; _bp_csrf_id=MTc2NzQ5MzU0MHxJbk5MV1VjeE5YaE5WMFZrYVVsalZYUmpkMnRPVmtOVlJ6QjVOVUZLZEUwd1YzRTNiV2xSWm5kbmRGVTlJZ289fPUAOwX5K32ebYzSSKj6fRTJMkGUOcRxH_GzVD-hUCqB; _cfuvid=PuQPpBvqq610KZkTCatgp6ngdLE1ASmw68jy54GS8EE-1767493753046-0.0.1.1-604800000; __cf_bm=AHORGQ7R6tb9GZOfuLcll6ncBmNzgoleJ2emn6uUQmc-1767496460-1.0.1.1-VkI.FcxFN7eqmKHm_dBHoN89Wrjy5xeD3wsQRpaGvFJcClbsxtmsMrh9W.mzlqD6ogi_AXw9T76RFur.93hjDtPcl0w9W8GILMeA0onWhUw; cf_clearance=fs8pQqnWtku9crgBBNY8kCQ5UAn23CNGX6e.O8nIt8U-1767496587-1.2.1.1-BZQI95hvbEDwn2afx3Zu9go.F25yyF4ANQE3HDkEcBuuhPNOaw087FMui3E0UyvsV9DLhAEmIv_dNAxVRqqiEgtuKKA9G6Mq_fpkuLSJjNMEIF3E3ngLNmo_NVJpdqQWpcp1.3mHs.7wK.1vb0PXgD7y5R0VVf7yr.kJ.i1YaDZfIiJvpnPAubxXp_zuB4dL_o0UvJp27GcYHAVyVvfGOpQCFTlGQlFcfbTmUKUNDKM; _ga_XPTRQH7XY5=GS2.1.s1767496606^$o2^$g0^$t1767496632^$j60^$l0^$h0^" ^
+  -H ^"origin: https://cryptohack.blooket.com^" ^
+  -H ^"prefer: safe^" ^
+  -H ^"priority: u=1, i^" ^
+  -H ^"sec-ch-ua: ^\^"Microsoft Edge^\^";v=^\^"143^\^", ^\^"Chromium^\^";v=^\^"143^\^", ^\^"Not A(Brand^\^";v=^\^"24^\^"^" ^
+  -H ^"sec-ch-ua-mobile: ?0^" ^
+  -H ^"sec-ch-ua-platform: ^\^"Windows^\^"^" ^
+  -H ^"sec-fetch-dest: empty^" ^
+  -H ^"sec-fetch-mode: cors^" ^
+  -H ^"sec-fetch-site: same-origin^" ^
+  -H ^"user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0^" ^
+  -H ^"x-blooket-build: bid45f1de6701bc57bda23c3fd944a351fbfe2e90f178b33d08^" ^
+  -H ^"x-csrf-token: 57nzPN6YnaGEQvozVMPgu7WeyY7ED5nfzUR/FShGZj5XH/XrQtTF5uZjPx4nyu3vkJgaoIQpSuuX6pmcL7bk6w==^" 
+
+
+  https://fb.blooket.com/c/firebase/id?id=1547240 :  curl ^"https://fb.blooket.com/c/firebase/id?id=1547240^" ^
+  -H ^"accept: application/json, text/plain, */*^" ^
+  -H ^"accept-language: en-US,en;q=0.9^" ^
+  -b ^"cookieyes-consent=consentid:RlEyM3lNUGdIcUZRZ1JJbDNLUEl6ZG5XdFE3bTZ1ZW0,consent:yes,action:yes,necessary:yes,analytics:yes,advertisement:yes,lastRenewedDate:1752694071000; _ga=GA1.1.539811041.1762717669; bcid=^%^7B^%^22i^%^22^%^3A^%^20^%^22d945be5b-ae0d-4c80-82d5-8027df3cede7^%^22^%^2C^%^20^%^22r^%^22^%^3A^%^201768854540375^%^7D; _b2_csrf_id=MTc2NzQ5MzUyMnxJbWwwT1RsMWVuaE9lRkpYV1RsaVR5OVNWblk1Vkc1WlRHMXJha053UzBodlNHbzVVWEo0VGtOYVVrVTlJZ289fIjvhUDsdqLQYGXoRgOjCYZfkv3kEBwU0l0LtbK_1Cxi; bsid=MTc2NzQ5MzUyOXwySDJZSE9DT2VpZzBDaXZRX1o5eXdwS1lwTkN0UjczYU9rQnVXNkFUeElnVXU1b2hMRzMxZ2lsdHBCMD180ouI60S41D4HMWDCLDziM76oem6M20bihp74jahq17I=; _cfuvid=PuQPpBvqq610KZkTCatgp6ngdLE1ASmw68jy54GS8EE-1767493753046-0.0.1.1-604800000; __cf_bm=AHORGQ7R6tb9GZOfuLcll6ncBmNzgoleJ2emn6uUQmc-1767496460-1.0.1.1-VkI.FcxFN7eqmKHm_dBHoN89Wrjy5xeD3wsQRpaGvFJcClbsxtmsMrh9W.mzlqD6ogi_AXw9T76RFur.93hjDtPcl0w9W8GILMeA0onWhUw; cf_clearance=fs8pQqnWtku9crgBBNY8kCQ5UAn23CNGX6e.O8nIt8U-1767496587-1.2.1.1-BZQI95hvbEDwn2afx3Zu9go.F25yyF4ANQE3HDkEcBuuhPNOaw087FMui3E0UyvsV9DLhAEmIv_dNAxVRqqiEgtuKKA9G6Mq_fpkuLSJjNMEIF3E3ngLNmo_NVJpdqQWpcp1.3mHs.7wK.1vb0PXgD7y5R0VVf7yr.kJ.i1YaDZfIiJvpnPAubxXp_zuB4dL_o0UvJp27GcYHAVyVvfGOpQCFTlGQlFcfbTmUKUNDKM; _ga_XPTRQH7XY5=GS2.1.s1767496606^$o2^$g0^$t1767496632^$j60^$l0^$h0^" ^
+  -H ^"origin: https://cryptohack.blooket.com^" ^
+  -H ^"prefer: safe^" ^
+  -H ^"priority: u=1, i^" ^
+  -H ^"referer: https://cryptohack.blooket.com/^" ^
+  -H ^"sec-ch-ua: ^\^"Microsoft Edge^\^";v=^\^"143^\^", ^\^"Chromium^\^";v=^\^"143^\^", ^\^"Not A(Brand^\^";v=^\^"24^\^"^" ^
+  -H ^"sec-ch-ua-mobile: ?0^" ^
+  -H ^"sec-ch-ua-platform: ^\^"Windows^\^"^" ^
+  -H ^"sec-fetch-dest: empty^" ^
+  -H ^"sec-fetch-mode: cors^" ^
+  -H ^"sec-fetch-site: same-site^" ^
+  -H ^"user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0^"
+
+  https://play.blooket.com/play : curl ^"https://play.blooket.com/play^" ^
+  -H ^"accept: text/x-component^" ^
+  -H ^"accept-language: en-US,en;q=0.9^" ^
+  -H ^"baggage: sentry-environment=localdev,sentry-release=cdad3597e5f167b75f76edebca9b8cca76075052,sentry-public_key=b0d752c0f52533be04d27efb42ba6f17,sentry-trace_id=4ad1f4f730c24737be4be3af5e6b4b34,sentry-org_id=4508213881274368^" ^
+  -H ^"content-type: multipart/form-data; boundary=----WebKitFormBoundaryvrdMfKD5m8Gkgq0O^" ^
+  -b ^"cookieyes-consent=consentid:RlEyM3lNUGdIcUZRZ1JJbDNLUEl6ZG5XdFE3bTZ1ZW0,consent:yes,action:yes,necessary:yes,analytics:yes,advertisement:yes,lastRenewedDate:1752694071000; _ga=GA1.1.539811041.1762717669; bcid=^%^7B^%^22i^%^22^%^3A^%^20^%^22d945be5b-ae0d-4c80-82d5-8027df3cede7^%^22^%^2C^%^20^%^22r^%^22^%^3A^%^201768854540375^%^7D; _b2_csrf_id=MTc2NzQ5MzUyMnxJbWwwT1RsMWVuaE9lRkpYV1RsaVR5OVNWblk1Vkc1WlRHMXJha053UzBodlNHbzVVWEo0VGtOYVVrVTlJZ289fIjvhUDsdqLQYGXoRgOjCYZfkv3kEBwU0l0LtbK_1Cxi; bsid=MTc2NzQ5MzUyOXwySDJZSE9DT2VpZzBDaXZRX1o5eXdwS1lwTkN0UjczYU9rQnVXNkFUeElnVXU1b2hMRzMxZ2lsdHBCMD180ouI60S41D4HMWDCLDziM76oem6M20bihp74jahq17I=; _cfuvid=PuQPpBvqq610KZkTCatgp6ngdLE1ASmw68jy54GS8EE-1767493753046-0.0.1.1-604800000; __cf_bm=AHORGQ7R6tb9GZOfuLcll6ncBmNzgoleJ2emn6uUQmc-1767496460-1.0.1.1-VkI.FcxFN7eqmKHm_dBHoN89Wrjy5xeD3wsQRpaGvFJcClbsxtmsMrh9W.mzlqD6ogi_AXw9T76RFur.93hjDtPcl0w9W8GILMeA0onWhUw; cf_clearance=fs8pQqnWtku9crgBBNY8kCQ5UAn23CNGX6e.O8nIt8U-1767496587-1.2.1.1-BZQI95hvbEDwn2afx3Zu9go.F25yyF4ANQE3HDkEcBuuhPNOaw087FMui3E0UyvsV9DLhAEmIv_dNAxVRqqiEgtuKKA9G6Mq_fpkuLSJjNMEIF3E3ngLNmo_NVJpdqQWpcp1.3mHs.7wK.1vb0PXgD7y5R0VVf7yr.kJ.i1YaDZfIiJvpnPAubxXp_zuB4dL_o0UvJp27GcYHAVyVvfGOpQCFTlGQlFcfbTmUKUNDKM; _ga_XPTRQH7XY5=GS2.1.s1767496606^$o2^$g0^$t1767496632^$j60^$l0^$h0^" ^
+  -H ^"next-action: f6fe184a2ddb16eb2027c85eb32bf9520fcde0a7^" ^
+  -H ^"next-router-state-tree: ^%^5B^%^22^%^22^%^2C^%^7B^%^22children^%^22^%^3A^%^5B^%^22(routes)^%^22^%^2C^%^7B^%^22children^%^22^%^3A^%^5B^%^22play^%^22^%^2C^%^7B^%^22children^%^22^%^3A^%^5B^%^22__PAGE__^%^22^%^2C^%^7B^%^7D^%^2Cnull^%^2Cnull^%^5D^%^7D^%^2Cnull^%^2Cnull^%^5D^%^7D^%^2Cnull^%^2Cnull^%^5D^%^7D^%^2Cnull^%^2Cnull^%^2Ctrue^%^5D^" ^
+  -H ^"origin: https://play.blooket.com^" ^
+  -H ^"prefer: safe^" ^
+  -H ^"priority: u=1, i^" ^
+  -H ^"referer: https://play.blooket.com/play^" ^
+  -H ^"sec-ch-ua: ^\^"Microsoft Edge^\^";v=^\^"143^\^", ^\^"Chromium^\^";v=^\^"143^\^", ^\^"Not A(Brand^\^";v=^\^"24^\^"^" ^
+  -H ^"sec-ch-ua-mobile: ?0^" ^
+  -H ^"sec-ch-ua-platform: ^\^"Windows^\^"^" ^
+  -H ^"sec-fetch-dest: empty^" ^
+  -H ^"sec-fetch-mode: cors^" ^
+  -H ^"sec-fetch-site: same-origin^" ^
+  -H ^"sentry-trace: 4ad1f4f730c24737be4be3af5e6b4b34-abdd8137d1c6fda2^" ^
+  -H ^"user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0^" ^
+  --data-raw ^"------WebKitFormBoundaryvrdMfKD5m8Gkgq0O^
+
+Content-Disposition: form-data; name=^\^"1_^$ACTION_REF_1^\^"^
+
+^
+
+^
+
+------WebKitFormBoundaryvrdMfKD5m8Gkgq0O^
+
+Content-Disposition: form-data; name=^\^"1_^$ACTION_1:0^\^"^
+
+^
+
+^{^\^"id^\^":^\^"f6fe184a2ddb16eb2027c85eb32bf9520fcde0a7^\^",^\^"bound^\^":^\^"^$^@1^\^"^}^
+
+------WebKitFormBoundaryvrdMfKD5m8Gkgq0O^
+
+Content-Disposition: form-data; name=^\^"1_^$ACTION_1:1^\^"^
+
+^
+
+^[^{^\^"status^\^":^\^"UNSET^\^",^\^"message^\^":^\^"^\^",^\^"fieldErrors^\^":^{^}^}^]^
+
+------WebKitFormBoundaryvrdMfKD5m8Gkgq0O^
+
+Content-Disposition: form-data; name=^\^"1_^$ACTION_KEY^\^"^
+
+^
+
+k1456983172^
+
+------WebKitFormBoundaryvrdMfKD5m8Gkgq0O^
+
+Content-Disposition: form-data; name=^\^"1_join-code^\^"^
+
+^
+
+1547240^
+
+------WebKitFormBoundaryvrdMfKD5m8Gkgq0O^
+
+Content-Disposition: form-data; name=^\^"1_attempts^\^"^
+
+^
+
+0^
+
+------WebKitFormBoundaryvrdMfKD5m8Gkgq0O^
+
+Content-Disposition: form-data; name=^\^"0^\^"^
+
+^
+
+^[^{^\^"status^\^":^\^"UNSET^\^",^\^"message^\^":^\^"^\^",^\^"fieldErrors^\^":^{^}^},^\^"^$K1^\^"^]^
+
+------WebKitFormBoundaryvrdMfKD5m8Gkgq0O--^
+
+^" 

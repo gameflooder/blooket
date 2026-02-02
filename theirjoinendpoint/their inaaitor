@@ -1,0 +1,9 @@
+Request call stack
+connect	@	script.js:2158
+joinGame	@	script.js:1692
+join	@	(index):788
+onclick	@	(index):689
+Request initiator chain
+https://blooketbot.schoolcheats.net/
+https://blooketbot.schoolcheats.net/script.js
+https://blooketbot.schoolcheats.net/join
