@@ -581,7 +581,9 @@
         if (urlcode) document.querySelector("#gcode").value = urlcode;
     </script>
 
+    <script>if(typeof module==="undefined"){window.module={};window.__lunicodeModuleShim=true;}</script>
     <script src="https://cdn.jsdelivr.net/gh/combatwombat/Lunicode.js@master/lunicode.js"></script>
+    <script>if(window.__lunicodeModuleShim&&window.module.exports){window.Lunicode=window.module.exports;delete window.__lunicodeModuleShim;}</script>
 
     <script>
         function join() {

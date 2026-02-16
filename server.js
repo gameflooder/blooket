@@ -55,6 +55,14 @@ app.get('/health', (req, res) => {
     res.json({ status: 'ok' });
 });
 
+app.get('/favicon.ico', (req, res) => {
+    res.status(204).end();
+});
+
+app.get('/api/v1/features/environment', (req, res) => {
+    res.json({});
+});
+
 app.listen(PORT, () => {
     console.log(`🚀 Proxy server running on http://localhost:${PORT}`);
 });
