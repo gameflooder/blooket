@@ -2336,8 +2336,8 @@ async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "ra
   var bcfElement = document.getElementById("bcf");
   var bcf = bcfElement ? bcfElement.getAttribute("checked") : false;
   
-  var batchSize = 10;
-  var delayBetweenBatches = 100;
+  var batchSize = 5;
+  var delayBetweenBatches = 250;
   
   var allResults = [];
   var botNames = [];
@@ -2357,8 +2357,10 @@ async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "ra
     
     updateStatus(`Joining batch ${batchNum}/${totalBatches} (${allResults.filter(b => b && b.connected).length} connected)...`);
     
-    var batchPromises = batchBots.map(b => {
-      return connectBot(code, b.name, icog, b.index, selectedBlook);
+    var batchPromises = batchBots.map((b, i) => {
+      return new Promise(r => setTimeout(r, i * 60)).then(() =>
+        connectBot(code, b.name, icog, b.index, selectedBlook)
+      );
     });
     
     var batchResults = await Promise.all(batchPromises);

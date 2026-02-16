@@ -4,9 +4,42 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { chromium } = require('playwright');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = 4500;
+
+const AES_KEY = Buffer.from('B100k3tFl00d3rK3y2026SecureAES!!', 'utf8');
+const AES_GCM_IV_LENGTH = 12;
+
+function decryptPayload(encryptedBase64) {
+    const combined = Buffer.from(encryptedBase64, 'base64');
+    const iv = combined.subarray(0, AES_GCM_IV_LENGTH);
+    const authTag = combined.subarray(combined.length - 16);
+    const ciphertext = combined.subarray(AES_GCM_IV_LENGTH, combined.length - 16);
+    const decipher = crypto.createDecipheriv('aes-256-gcm', AES_KEY, iv);
+    decipher.setAuthTag(authTag);
+    let decrypted = decipher.update(ciphertext, null, 'utf8');
+    decrypted += decipher.final('utf8');
+    return JSON.parse(decrypted);
+}
+
+function encryptPayload(obj) {
+    const iv = crypto.randomBytes(AES_GCM_IV_LENGTH);
+    const cipher = crypto.createCipheriv('aes-256-gcm', AES_KEY, iv);
+    let encrypted = cipher.update(JSON.stringify(obj), 'utf8');
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    const authTag = cipher.getAuthTag();
+    const combined = Buffer.concat([iv, encrypted, authTag]);
+    return combined.toString('base64');
+}
+
+function parseBody(body) {
+    if (body.encrypted && body.data) {
+        return decryptPayload(body.data);
+    }
+    return body;
+}
 
 app.use(cors());
 app.use(express.json());
@@ -113,7 +146,14 @@ async function joinGameWithPlaywright(gameId, playerName) {
 
 // Join endpoint
 app.post('/join', async (req, res) => {
-    const { id, name } = req.body;
+    let id, name;
+    try {
+        const parsed = parseBody(req.body);
+        id = parsed.id;
+        name = parsed.name;
+    } catch (e) {
+        return res.json({ success: false, msg: "Decryption failed" });
+    }
     console.log(`[JOIN] Request - Game: ${id}, Name: ${name}`);
 
     if (!id || !name) {
@@ -122,7 +162,11 @@ app.post('/join', async (req, res) => {
 
     try {
         const result = await joinGameWithPlaywright(id, name);
-        res.json(result);
+        if (req.body.encrypted) {
+            res.json({ encrypted: true, data: encryptPayload(result) });
+        } else {
+            res.json(result);
+        }
     } catch (err) {
         console.log(`[ERROR] ${err.message}`);
         res.json({ success: false, msg: err.message });
