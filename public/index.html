@@ -151,8 +151,6 @@
             
             <div style="margin: 10px 0;">
                 <checkbox id="bcf">Bypass Chat Filter</checkbox>
-                <checkbox id="fpswitch">Add Invisible Prefix</checkbox>
-                <checkbox id="icogmode">Incognito Mode (Random Blook)</checkbox>
             </div>
             
             <button onclick="join()">Join Game</button>
@@ -187,14 +185,12 @@
         function join() {
             const code = document.getElementById('gcode').value;
             const name = document.getElementById('gname').value || 'Bot' + Math.floor(Math.random() * 1000);
-            const icog = document.getElementById('icogmode').getAttribute('checked');
-            
             if (!code || code.length !== 7) {
                 errorBar('Please enter a valid 7-digit game code');
                 return;
             }
             
-            joinGame(code, name, icog);
+            joinGame(code, name);
         }
     </script>
     

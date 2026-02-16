@@ -552,19 +552,9 @@
             </div>
 
             <div class="toggles">
-                <div class="toggle-row" onclick="tog('icogmode')">
-                    <div class="toggle-label"><span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 11c0-1 1-2 2-2h4c1 0 2 1 2 2"/><circle cx="9" cy="13" r="2"/><circle cx="15" cy="13" r="2"/></svg></span> Incognito Mode</div>
-                    <checkbox id="icogmode" checked="true"></checkbox>
-                </div>
-
                 <div class="toggle-row" onclick="tog('bcf')">
                     <div class="toggle-label"><span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0" stroke-linecap="round"/></svg></span> Bypass Filter</div>
                     <checkbox id="bcf"></checkbox>
-                </div>
-
-                <div class="toggle-row" onclick="tog('fpswitch')">
-                    <div class="toggle-label"><span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="gold" stroke-width="2"><path d="M6 9l6-6 6 6"/><rect x="4" y="9" width="16" height="10" rx="1"/><circle cx="12" cy="14" r="3" fill="gold"/><path d="M12 17v4M8 21h8"/></svg></span> First Place Mode</div>
-                    <checkbox id="fpswitch" checked="true"></checkbox>
                 </div>
             </div>
 
@@ -619,10 +609,9 @@
             var botCount = parseInt(document.getElementById("botcount").value) || 1;
             botCount = Math.min(Math.max(botCount, 1), 100);
             
-            var icog = document.getElementById("icogmode").getAttribute("checked") ? true : false;
             var selectedBlook = document.getElementById("blookSelect").value;
             
-            joinMultipleBots(cin.value, name.value, botCount, icog, selectedBlook);
+            joinMultipleBots(cin.value, name.value, botCount, selectedBlook);
         }
 
         function killAllBots() {

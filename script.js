@@ -461,7 +461,6 @@ var botinfo = {};
 var allBots = []; 
 let canJoin = true;
 var gameobject = {};
-var tokens = [];
 var oname;
 var unreads = 0;
 var chosenBlook = "random"; 
@@ -2076,7 +2075,7 @@ function onUpdateData(datav) {
   }
   
   var currentStage = datav?.stg || datav?.s?.stg;
-  if (lastGameStage !== currentStage && currentStage && lastGameStage === null || lastGameStage === "waiting") {
+  if (lastGameStage !== currentStage && currentStage && (lastGameStage === null || lastGameStage === "waiting")) {
     if (chosenBlook && chosenBlook !== "random" && allBots.length > 0) {
       setTimeout(() => {
         applyBlookToAllBots(chosenBlook);
@@ -2116,7 +2115,7 @@ function onChat(msg, name) {
   }
 }
 
-function joinGame(code, name, icog) {
+function joinGame(code, name) {
   if (!canJoin) {
     errorBar("Stop spamming the button dude!");
     return;
@@ -2134,7 +2133,7 @@ function joinGame(code, name, icog) {
     name = bypassFilter(name);
   }
   oname = name;
-  connect(code, name, icog);
+  connect(code, name);
 
   setTimeout(() => { canJoin = true; }, 2000);
 }
@@ -2157,14 +2156,13 @@ function onData(d) {
     return;
   }
   procData(d);
-  if (gameobject.c[botinfo.name]) {
-    if (gameobject.c[botinfo.name].tat && !d.c[botinfo.name].tat) {
+  if (gameobject.c && gameobject.c[botinfo.name]) {
+    if (gameobject.c[botinfo.name].tat && d.c && d.c[botinfo.name] && !d.c[botinfo.name].tat) {
       alert("Attack complete!");
     }
   }
   if (d.stg === "fin" && botinfo.connected) {
-    botinfo.connected = false;
-    leaveGame();
+    leaveAllBots();
     finishG();
     return;
   }
@@ -2173,19 +2171,7 @@ function onData(d) {
 function procData(data) {}
 
 function leaveGame() {
-  if (botinfo.connected) {
-    setUserVal("", {});
-    botinfo.fbdb = false;
-    deleteApp(botinfo.liveApp);
-    botinfo.connected = false;
-    botinfo.liveApp = false;
-    gameobject = {};
-    lastGameStage = null;
-    stopPlayerListUpdater();
-    playerSelectElements = [];
-    lastPlayerListHash = "";
-    updateStatus("Ready");
-  }
+  leaveAllBots();
 }
 
 async function applyBlookToAllBots(blookName) {
@@ -2217,7 +2203,7 @@ function updateBotCounter() {
 
 var joinAbortController = null;
 
-async function connectBot(gid, name, icog, botIndex, selectedBlook = "random", retries = 2) {
+async function connectBot(gid, name, botIndex, selectedBlook = "random", retries = 2) {
   var bot = {
     connected: false,
     connecting: true,
@@ -2315,7 +2301,7 @@ async function connectBot(gid, name, icog, botIndex, selectedBlook = "random", r
   return null;
 }
 
-async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "random") {
+async function joinMultipleBots(code, baseName, count, selectedBlook = "random") {
   if (!canJoin) {
     errorBar("Stop spamming the button!");
     return;
@@ -2326,6 +2312,7 @@ async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "ra
   lastGameStage = null;
   
   leaveAllBots();
+  canJoin = false;
   
   joinAbortController = new AbortController();
   
@@ -2359,7 +2346,7 @@ async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "ra
     
     var batchPromises = batchBots.map((b, i) => {
       return new Promise(r => setTimeout(r, i * 60)).then(() =>
-        connectBot(code, b.name, icog, b.index, selectedBlook)
+        connectBot(code, b.name, b.index, selectedBlook)
       );
     });
     
@@ -2405,7 +2392,7 @@ async function joinMultipleBots(code, baseName, count, icog, selectedBlook = "ra
   setTimeout(() => { canJoin = true; }, 1000);
 }
 
-function leaveAllBots() {
+async function leaveAllBots() {
   if (joinAbortController) {
     joinAbortController.abort();
     joinAbortController = null;
@@ -2414,13 +2401,24 @@ function leaveAllBots() {
   stopPlayerListUpdater();
   playerSelectElements = [];
   lastPlayerListHash = "";
+  var cleanupPromises = [];
   for (var i = 0; i < allBots.length; i++) {
     var bot = allBots[i];
     if (bot && bot.connected) {
       try {
-        set(ref(bot.fbdb, `${bot.gid}/c/${bot.name}`), {});
-        deleteApp(bot.liveApp);
+        cleanupPromises.push(
+          set(ref(bot.fbdb, `${bot.gid}/c/${bot.name}`), {}).catch(() => {})
+        );
       } catch(e) {}
+    }
+  }
+  if (cleanupPromises.length > 0) {
+    await Promise.allSettled(cleanupPromises);
+  }
+  for (var i = 0; i < allBots.length; i++) {
+    var bot = allBots[i];
+    if (bot && bot.liveApp) {
+      try { deleteApp(bot.liveApp); } catch(e) {}
     }
   }
   allBots = [];
@@ -2484,7 +2482,7 @@ function genCursed() {
 function activateAuto() {
   var rejoining = 0;
   onBlock = async (e) => {
-    if (Object.keys(e).includes(botinfo.name) && !rejoining) {
+    if (e && Object.keys(e).includes(botinfo.name) && !rejoining) {
       rejoining = 1;
       await rejoinGame();
       rejoining = 0;
@@ -2908,7 +2906,6 @@ async function useToken(token) {
   await connect(
     gid,
     name,
-    document.getElementById("icogmode").getAttribute("checked"),
     {
       success: !0,
       fbShardURL,
@@ -2929,15 +2926,7 @@ function addChatMessage(a) {
     .querySelector(".chatcontainer")
     .insertBefore(d, document.querySelector(".chatcontainer > div"));
 }
-document.querySelectorAll("checkbox").forEach((e) => {
-  e.addEventListener("click", function () {
-    if (e.getAttribute("checked")) {
-      e.removeAttribute("checked");
-    } else {
-      e.setAttribute("checked", "true");
-    }
-  });
-});
+
 function genMessage(msg, amt) {
   var t = "";
   for (var i = 0; i < amt; i++) {
@@ -2945,7 +2934,7 @@ function genMessage(msg, amt) {
   }
   return t;
 }
-async function connect(gid, name, icog, reqbody = !1) {
+async function connect(gid, name, reqbody = !1) {
   botinfo.connected = false;
   botinfo.connecting = true;
   botinfo.name = name;
@@ -2953,6 +2942,7 @@ async function connect(gid, name, icog, reqbody = !1) {
   updateStatus("Fetching token (encrypted)...");
   
   let body;
+  try {
   if (reqbody) {
     body = reqbody;
   } else {
@@ -2998,9 +2988,7 @@ async function connect(gid, name, icog, reqbody = !1) {
     await signInWithCustomToken(auth, body.fbToken);
     const db = getDatabase(liveApp);
     await set(ref(db, `${gid}/c/${name}`), {
-      b: icog
-        ? fblooks[Math.floor(Math.random() * fblooks.length)]
-        : "Rainbow Astronaut",
+      b: fblooks[Math.floor(Math.random() * fblooks.length)],
       rt: !0
     });
     botinfo.fbdb = db;
@@ -3024,6 +3012,11 @@ async function connect(gid, name, icog, reqbody = !1) {
     updateStatus("Ready");
     botinfo.connecting = false;
     errorBar("Connect error: " + body.msg);
+  }
+  } catch (e) {
+    updateStatus("Ready");
+    botinfo.connecting = false;
+    errorBar("Connect error: " + e.message);
   }
 }
 
@@ -3072,6 +3065,7 @@ let chatOpened = false;
 
 function discordChatTest() {
   if (chatOpened) return;
+  chatOpened = true;
 
   (() => {
     document.body.insertAdjacentHTML(

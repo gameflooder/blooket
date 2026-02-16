@@ -520,18 +520,8 @@
 
             <div class="toggles">
                 <div class="toggle-row">
-                    <div class="toggle-label"><span>🎭</span> Incognito Mode</div>
-                    <checkbox id="icogmode" checked="true"></checkbox>
-                </div>
-
-                <div class="toggle-row">
                     <div class="toggle-label"><span>🔓</span> Bypass Filter</div>
                     <checkbox id="bcf"></checkbox>
-                </div>
-
-                <div class="toggle-row">
-                    <div class="toggle-label"><span>🏆</span> First Place Mode</div>
-                    <checkbox id="fpswitch" checked="true"></checkbox>
                 </div>
             </div>
 
@@ -592,11 +582,9 @@
             var botCount = parseInt(document.getElementById("botcount").value) || 1;
             botCount = Math.min(Math.max(botCount, 1), 100); // Limit 1-100 bots
             
-            var icog = document.getElementById("icogmode").getAttribute("checked") ? true : false;
             var selectedBlook = document.getElementById("blookSelect").value;
             
-            // Join multiple bots simultaneously
-            joinMultipleBots(cin.value, name.value, botCount, icog, selectedBlook);
+            joinMultipleBots(cin.value, name.value, botCount, selectedBlook);
         }
 
         function killAllBots() {
